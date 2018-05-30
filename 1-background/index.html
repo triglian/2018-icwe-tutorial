@@ -14,9 +14,9 @@
       window.Polymer = window.Polymer || {};
       window.Polymer.dom = 'shadow';
     </script>
-    <link rel="import" href="bower_components/paper-icon-button/paper-icon-button.html">
-    <link rel="import" href="bower_components/asq-elements/asq-elements.html">
-    <link rel="import" href="bower_components/iron-flex-layout/classes/iron-flex-layout.html">
+    <link rel="import" href="http://asq.inf.usi.ch/element-docs/paper-icon-button/paper-icon-button.html">
+    <link rel="import" href="http://asq.inf.usi.ch/element-docs/asq-elements/asq-elements.html">
+    <link rel="import" href="http://asq.inf.usi.ch/element-docs/iron-flex-layout/classes/iron-flex-layout.html">
 
 
     <link rel="stylesheet" href="reveal.js/css/reveal.css">
@@ -122,6 +122,10 @@ SVGInjector(mySVGsToInject);
 
 // cache question-type-name-label
 var questionTypeNameLabelEl = document.getElementById('question-type-name-label');
+
+Reveal.addEventListener( 'ready', function( event ) {
+  document.body.classList.add("on-"+event.currentSlide.id);
+});
 
 Reveal.addEventListener( 'slidechanged', function( event ) {
   document.body.classList.remove("on-"+event.previousSlide.id);
