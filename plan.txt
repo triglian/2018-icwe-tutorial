@@ -1,9 +1,26 @@
-8:45 - 9:00 General Introduction (Test the audience)
+8:45 - 9:00 [CP] General Introduction (Test the audience for background knowledge using ASQ) (based on the pitch)
+- Web-based presentations
+- Web technology knowledge (HTML/CSS/Polymer)
+- Pre-requisites check
+- Usage scenarios (engage the audience with questions)
 
-9:00 - 9:30 ASQ Demo (Student/Presenter)
-9:30 - 10:00 Authoring Workflow Demo (PDF, question injection workflow)
-10:00 - 10:30 Getting started with your own presentation
+9:00 - 9:15 [VT*] ASQ Intro/Pitch (Motivation) 
+9:15 - 9:30 [CP] Mini-Lecture Demo (Best of from the Web atelier/impress)
+9:30 - 9:45 [VT] ASQ Presenter Tools Demo (Showing the tool)
 
-14:00 - 14:30 Using ASQ components
-14:30 - 15:00 Question Asking Strategies
+9:45 - 10:00 [VT?] Authoring Workflow Demo (PDF Upload, question injection)
+- show it is possible to reuse existing content and make it interactive
 
+10:00 - 10:30 [VT...] Getting started with your own presentation (Hands-on Tutorial with predefined steps)
+- Make a reveal presentation interactive
+- Highlight editor
+- Give pointers to question type elements (copy paste examples)
+
+14:00 - 14:30 [VT/CP] Using ASQ on your own (Make your content interactive challenge)
+- Try out different elements to prepare questions, upload on ASQ
+- Upload PDF of your own and inject questions from the uploaded presentation
+
+14:30 - 15:00 [CP] Question Asking Strategies
+- Show UMAP Results
+
+- Collect feedback (SUS, Specific Suggestions)
