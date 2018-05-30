@@ -867,15 +867,6 @@ graph-slideshow .fragment .previous{
   transform: translateZ(0px) rotate(-5deg);
 }
 
-/*********************************************
- * Competitors' plans
- *********************************************/
-#competitors-plans td{
-  vertical-align: middle;
-}
-#competitors-plans td:last-child{
-  font-size: 0.8em;
-}
 
 /*********************************************
  * Related publications
@@ -931,40 +922,6 @@ graph-slideshow .fragment .previous{
  }
 
 
-/*********************************************
- * Team
- *********************************************/
-#team-container{
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-}
-
-#team-container .team-member{
-  flex: 1;
-}
-
-.reveal img.member-photo{
-  height: 130px;
-  border-radius: 50%;
-  max-width: none;
-  max-height: none;
-}
-
-.reveal .member-name{
-  font-weight: bold;
-}
-
-.reveal .member-desc{
-  font-size: 0.65em;
-  text-align: left;
-}
-
-.reveal .member-desc{
-  text-align: center;
-  padding: 0 10px;
-}
-
 
 /*********************************************
  * Usage Stats
@@ -1003,123 +960,6 @@ graph-slideshow .fragment .previous{
 
 #and-counting.visible {
   transform: rotateZ(-20deg);
-}
-
-
-/*********************************************
- * Timeline
- *********************************************/
-.reveal #project-timeline{
-  width: 870px;
-  height: 300px;
-  position: relative;
-  margin: 30px auto 20px;
-  /*background: red;*/
-}
-
-.reveal #project-timeline #line{
-  width: 100%;
-  background: #f5af18;
-  height: 5px;
-  position: absolute;
-  top: 287px;
-}
-
-.reveal #project-timeline .point{
-  position: absolute;
-  font-size: 68px;
-  color: rgb(89, 118, 182);
-  top: 279px;
-  line-height: 10px;
-}
-
-.reveal #project-timeline .point.no-bridge{
-  color: #7d7d7d;
-}
-
-.reveal #project-timeline .point.after-bridge{
-  color: #ad7352;
-}
-
-
-.reveal #project-timeline .point-text{
-  position: absolute;
-  opacity: 0;
-  top: -46px;
-  left: 16px;
-  color: black;
-  font-size: 48px;
-  line-height: 1;
-  white-space: nowrap;
-  transform-origin: left center;
-  transform: rotate(-45deg);
-}
-
-.reveal #project-timeline #timelineMask{
-  background-color: #fafafa;
-  height: 300px;
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 2;
-}
-
-.reveal #project-timeline #timelineMask.animate{
-  transition: left 1000ms ease;
-  left: 100%;
-}
-
-.reveal #project-timeline.animate .point:nth-child(2) .point-text{
-  transition: opacity 200ms ease-out 150ms;
-  opacity: 1;
-}
-
-.reveal #project-timeline.animate .point:nth-child(3) .point-text{
-  transition: opacity 200ms ease-out 100ms;
-  opacity: 1;
-}
-
-.reveal #project-timeline.animate .point:nth-child(4) .point-text{
-  transition: opacity 200ms ease-out 250ms;
-  opacity: 1;
-}
-
-.reveal #project-timeline.animate .point:nth-child(5) .point-text{
-  transition: opacity 200ms ease-out 400ms;
-  opacity: 1;
-}
-
-.reveal #project-timeline.animate .point:nth-child(6) .point-text{
-  transition: opacity 200ms ease-out 600ms;
-  opacity: 1;
-}
-
-.reveal #project-timeline.animate .point:nth-child(7) .point-text{
-  transition: opacity 200ms ease-out 760ms;
-  opacity: 1;
-}
-
-.reveal #project-timeline.animate .point:nth-child(8) .point-text{
-  transition: opacity 200ms ease-out 860ms;
-  opacity: 1;
-}
-
-.reveal #project-timeline #timeLineArrowHead{
-  position: absolute;
-  width: 0;
-  height: 0;
-  border-bottom: 12px solid transparent;
-  border-left: 24px solid #f5af18;
-  border-top: 12px solid transparent;
-  top: 277px;
-  left: 0;
-  z-index: 3;
-}
-
-.reveal #project-timeline #timeLineArrowHead.animate{
-  left: 100%;
-  transition: left 1000ms ease;
 }
 
 /*********************************************
