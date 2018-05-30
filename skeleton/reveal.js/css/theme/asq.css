@@ -512,8 +512,117 @@ body {
   z-index: 2;
 }
 
-#joinmsg{
-  display:none; position:fixed; left:0: right: 0; background: #fafafa; padding: 5px 10px; z-index: 10; border-radius: 5px;
+#joinasqmsg{
+  display:none;
+  position:fixed;
+  right: 0;
+  background: #fafafa;
+  padding: 5px 10px;
+  z-index: 10;
+  border-radius: 5px;
+  font-size: 1.2em; 
+  text-shadow:none;
+}
+
+/*********************************************
+ * Question type list
+ *********************************************/
+#question-type-list{
+  position: relative;
+  width: 1050px;
+  height: 636px;
+  perspective: 800px;
+}
+
+#question-type-list .img-frame{
+  position: absolute;
+  left: 90px;
+  background-color: #fff;
+  padding: 10px;
+   -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3), inset 0 0 30px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3), inset 0 0 30px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3), inset 0 0 30px rgba(0, 0, 0, 0.1);
+  transform: translateZ(400px);
+  transition: transform 300ms ease-out;
+}
+
+.reveal .img-frame a{
+  text-shadow: none;
+  transition:none;
+  display: block;
+}
+
+#question-type-list .img-frame.previous {
+  opacity: 1;
+}
+
+#question-type-list .img-frame img{
+  pointer-events: none;
+  width: 250px;
+}
+
+#img-asq-multi-choice-q.visible{
+  top: 0;
+  transform: translateZ(0px);
+}
+#img-asq-text-input-q.visible{
+  top: -13px;
+  left: 330px;
+  transform: translateZ(0px) rotate(-5deg);
+}
+#img-asq-rating-q.visible{
+  top: 0;
+  left: 600px;
+  transform: translateZ(0px);
+}
+#img-asq-order-q.visible{
+  top: 110px;
+  transform: translateZ(0px) rotate(-5deg);
+}
+#img-asq-buckets-q.visible{
+  top: 140px;
+  left: 330px;
+  transform: translateZ(0px);
+}
+#img-asq-highlight-q.visible{
+  top: 160px;
+  left: 600px;
+  transform: translateZ(0px) rotate(5deg);
+}
+#img-asq-js-function-body-q.visible{
+  top: 230px;
+  left: 80px;
+  transform: translateZ(0px) rotate(4deg);
+}
+#img-asq-css-select-q.visible{
+  top: 230px;
+  left: 320px;
+  transform: translateZ(0px) rotate(-4deg);
+}
+#img-asq-sqlite-q.visible{
+  top: 300px;
+  left: 590px;
+  transform: translateZ(0px) rotate(0deg);
+}
+#img-asq-diagram-q.visible{
+  top: 360px;
+  left: 60px;
+  transform: translateZ(0px) rotate(0deg);
+}
+#img-asq-js-eval-q.visible{
+  top: 440px;
+  left: 320px;
+  transform: translateZ(0px) rotate(0deg);
+}
+#img-asq-code-q.visible{
+  top: 470px;
+  left: 590px;
+  transform: translateZ(0px) rotate(2deg);
+}
+#img-asq-fiddle-q.visible{
+  top: 520px;
+  left: 60px;
+  transform: translateZ(0px) rotate(-5deg);
 }
 
 

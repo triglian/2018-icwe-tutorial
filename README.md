@@ -2,9 +2,8 @@
 
 # Todo
 
-- [x] Check if we need SVG Injector
-- [x] Check if we need the notes plugin
-- [ ] Do we need mathjax?
+- [ ] link asq-dependencies
+- [ ] Delete mathjax
 - [ ] Clean up `bower.json` of dependencies that are not needed (SVG Injector?)
 - [ ] in-presentation task guide
 
@@ -58,6 +57,13 @@ Sometimes it's convenient to display statistics about a question type in a seper
 <asq-text-input-q-stats for="ti-1"></asq-text-input-q-stats>
 ```
 
+## Task 5 - Experiment with other ASQ question types
+
+ASQ supports 13 question types! 
+
+1. Use the links provided in the slide with `id="many-question-types"` to access the documentation of the question type that you want to try. 
+1. Locate the fifth slide in `skeleton/index.html`. It is a `<section>` element with `id="task-5"`.
+1. Use the pertinent code from the documentation to create a question type the comment for _Task 4_  inside the `<section>` tags. __DO NOT__ forget to enclose your question type inside `<asq-exercise>` tags!
 
 ## Task n - Create an account in ASQ
 
