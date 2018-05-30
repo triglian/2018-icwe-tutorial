@@ -1,0 +1,242 @@
+<!doctype html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=1024" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <title>ICWE2018 - ASQ tutorial | Skeleton</title>
+    
+
+    <script src="http://asq.inf.usi.ch/element-docs/webcomponentsjs/webcomponents-lite.js"></script> 
+    <!-- Use shadow dom -->
+    <script>
+      window.Polymer = window.Polymer || {};
+      window.Polymer.dom = 'shadow';
+    </script>
+    <link rel="import" href="http://asq.inf.usi.ch/element-docs/paper-icon-button/paper-icon-button.html">
+    <link rel="import" href="http://asq.inf.usi.ch/element-docs/asq-frontend-essentials/asq-frontend-essentials.html">
+    <link rel="import" href="http://asq.inf.usi.ch/element-docs/asq-solution/asq-solution.html">
+    <link rel="import" href="http://asq.inf.usi.ch/element-docs/asq-option/asq-option.html">
+    <link rel="import" href="http://asq.inf.usi.ch/element-docs/asq-stem/asq-stem.html">
+    <link rel="import" href="elements/asq-welcome/asq-welcome.html">
+    <link rel="import" href="http://asq.inf.usi.ch/element-docs/asq-code-q/asq-code-q.html">
+    <link rel="import" href="http://asq.inf.usi.ch/element-docs/asq-css-select-q/asq-css-select-q.html">
+    <link rel="import" href="http://asq.inf.usi.ch/element-docs/asq-fiddle-q/asq-fiddle-q.html">
+    <link rel="import" href="http://asq.inf.usi.ch/element-docs/asq-exercise/asq-exercise.html">
+    <link rel="import" href="http://asq.inf.usi.ch/element-docs/asq-js-eval-q/asq-js-eval-q.html">
+    <link rel="import" href="http://asq.inf.usi.ch/element-docs/asq-js-function-body-q/asq-js-function-body-q.html">
+    <link rel="import" href="http://asq.inf.usi.ch/element-docs/asq-multi-choice-q/asq-multi-choice-q.html">
+    <link rel="import" href="http://asq.inf.usi.ch/element-docs/asq-text-input-q/asq-text-input-q.html">
+    <link rel="import" href="http://asq.inf.usi.ch/element-docs/asq-text-input-q/asq-text-input-q-stats.html">
+    <link rel="import" href="http://asq.inf.usi.ch/element-docs/asq-highlight-q/asq-highlight-q.html">
+    <link rel="import" href="http://asq.inf.usi.ch/element-docs/asq-matchable-behavior/asq-matchable-behavior.html">
+    <link rel="import" href="http://asq.inf.usi.ch/element-docs/asq-buckets-q/asq-buckets-q.html">
+    <link rel="import" href="http://asq.inf.usi.ch/element-docs/asq-order-q/asq-order-q.html">
+    <link rel="import" href="http://asq.inf.usi.ch/element-docs/asq-sqlite-q/asq-sqlite-q.html">
+    <link rel="import" href="http://asq.inf.usi.ch/element-docs/asq-rating-q/asq-rating-q.html">
+    <link rel="import" href="http://asq.inf.usi.ch/element-docs/iron-flex-layout/classes/iron-flex-layout.html">
+
+
+    <link rel="stylesheet" href="reveal.js/css/reveal.css">
+    <!-- <link rel="stylesheet" href="reveal.js/css/print/pdf.css"> -->
+    <link rel="stylesheet" href="reveal.js/css/theme/asq.css" id="theme">
+
+    <!-- Code syntax highlighting -->
+    <link rel="stylesheet" href="reveal.js/lib/css/zenburn.css">   
+
+    <link rel="import" href="shared-styles.html">
+    <style is="custom-style" include="shared-styles"></style> 
+
+  </head>
+
+  <body data-asq-role="viewer">
+    <asq-settings max-num-submissions="-1" slideflow="ctrl" assessment="none"></asq-settings>
+
+    <img id="icwe-logo" src="img/logo-icwe.png" alt="ICWE 2018 logo" style="width: 100px;">
+
+    <a id="asq-logo-fixed" href="http://asq.inf.usi.ch/" target="_blank">
+      <img  src="img/ASQLogoBlack.png" alt="ASQ logo" style="width: 100px;">
+    </a>
+      
+
+
+    <div class="reveal">
+
+      <div id="joinasqmsg">Join us at <a class="bold" href="https://goo.gl/9LXiQZ">https://goo.gl/9LXiQZ</a></div>
+
+      <!-- Any section element inside of this container is displayed as a slide -->
+
+      <div class="slides">
+        <section id="splash">
+
+          <div class="asq-logo">
+            <img class="anim a" src="svg/a.svg">
+            <img class="anim backfacing a" src="svg/a.svg">
+            <img class="anim s" src="svg/s.svg">
+            <img class="anim backfacing s" src="svg/s.svg">
+            <img class="anim q" src="svg/q.svg">
+            <img class="anim backfacing q" src="svg/q.svg">
+          </div>
+
+          <h2 id="presentationTitle" class="pastel-blue">Skeleton Presentation</h2>
+          <asq-welcome></asq-welcome>
+        </section>
+        
+        <section id="task-3">
+          <h4 class="orange"> Task 3</h4>
+
+          <!-- Task 3 -->
+
+          <!-- End of Task 3 -->
+        </section>
+
+        <section id="task-4">
+          <h4 class="pastel-blue"> Task 4</h4>
+
+          <!-- Task 4 -->
+
+          <!-- End of Task 4 -->
+        </section>
+
+        <section id="many-question-types">
+          <h4 id="question-type-name-label" class="orange" style="text-align: center;"></h4>
+          <div id="question-type-list">
+            <div id="img-asq-multi-choice-q" data-autoslide="300" class="img-frame fragment" data-question-name="Multi-choice">
+              <a class="img-frame-link" href="http://asq.inf.usi.ch/element-docs/asq-multi-choice-q" target="_blank">
+                <img src="img/questions/asq-multi-choice-q-viewer.png">
+              </a>
+            </div>
+            <div id="img-asq-text-input-q" class="img-frame fragment" data-autoslide="300" data-question-name="Text">
+              <a class="img-frame-link" href="http://asq.inf.usi.ch/element-docs/asq-text-input-q" target="_blank">
+                <img src="img/questions/asq-text-input-q-viewer.png">
+              </a>
+            </div>
+            <div id="img-asq-rating-q" class="img-frame fragment" data-autoslide="300" data-question-name="Rate">
+              <a class="img-frame-link" href="http://asq.inf.usi.ch/element-docs/asq-rating-q" target="_blank">
+                <img src="img/questions/asq-rating-q-viewer.png">
+              </a>
+            </div>
+            <div id="img-asq-order-q" class="img-frame fragment" data-autoslide="300"  data-question-name="Order">
+              <a class="img-frame-link" href="http://asq.inf.usi.ch/element-docs/asq-order-q" target="_blank">
+                <img src="img/questions/asq-order-q-viewer.png">
+              </a>
+            </div>
+            <div id="img-asq-buckets-q" class="img-frame fragment" data-autoslide="300" data-question-name="Classify">
+              <a class="img-frame-link" href="http://asq.inf.usi.ch/element-docs/asq-buckets-q" target="_blank">
+                <img src="img/questions/asq-buckets-q-viewer.png">
+              </a>
+            </div>
+            <div id="img-asq-highlight-q" class="img-frame fragment" data-autoslide="300" data-question-name="Highlight">
+              <a class="img-frame-link" href="http://asq.inf.usi.ch/element-docs/asq-highlight-q" target="_blank">
+                <img src="img/questions/asq-highlight-q-viewer.png">
+              </a>
+            </div>
+            <div id="img-asq-js-function-body-q" class="img-frame fragment" data-autoslide="300" data-question-name="JS function">
+              <a class="img-frame-link" href="http://asq.inf.usi.ch/element-docs/asq-js-function-body-q" target="_blank">
+                <img src="img/questions/asq-js-function-body-q-viewer.png">
+              </a>
+            </div>
+            <div id="img-asq-css-select-q" class="img-frame fragment" data-autoslide="300" data-question-name="CSS Select">
+              <a class="img-frame-link" href="http://asq.inf.usi.ch/element-docs/asq-css-select-q" target="_blank">
+                <img src="img/questions/asq-css-select-q-viewer.png">
+              </a>
+            </div>
+            <div id="img-asq-sqlite-q" class="img-frame fragment" data-autoslide="300" data-question-name="SQLlite">
+              <a class="img-frame-link" href="http://asq.inf.usi.ch/element-docs/asq-sqlite-q" target="_blank">
+                <img src="img/questions/asq-sqlite-q-viewer.png">
+              </a>
+            </div>
+            <div id="img-asq-diagram-q" class="img-frame fragment" data-question-name="Diagram" data-autoslide="300">
+              <a class="img-frame-link" href="http://asq.inf.usi.ch/element-docs/asq-diagram-q" target="_blank">
+                <img src="img/questions/asq-diagram-q-viewer.png">
+              </a>
+            </div> 
+            <div id="img-asq-js-eval-q" class="img-frame fragment" data-question-name="JS Eval" data-autoslide="300">
+              <a class="img-frame-link" href="http://asq.inf.usi.ch/element-docs/asq-js-eval-q" target="_blank">
+                <img src="img/questions/asq-js-eval-q-viewer.png">
+              </a>
+            </div> 
+            <div id="img-asq-code-q" class="img-frame fragment" data-question-name="Code" data-autoslide="300">
+              <a class="img-frame-link" href="http://asq.inf.usi.ch/element-docs/asq-code-q" target="_blank">
+                <img src="img/questions/asq-code-q-viewer.png">
+              </a>
+            </div> 
+            <div id="img-asq-fiddle-q" class="img-frame fragment" data-question-name="HTML Fiddle" data-autoslide="300">
+              <a class="img-frame-link" href="http://asq.inf.usi.ch/element-docs/asq-fiddle-q" target="_blank">
+                <img src="img/questions/asq-fiddle-q-viewer.png">
+              </a>
+            </div> 
+            <div id="img-message" class="img-frame fragment" style="padding:0;" data-question-name="Try them yourself!" data-autoslide="none">
+            </div> 
+          </div>
+        </section>
+
+        <section id="task-5">
+          <h4 class="pastel-blue"> Task 5</h4>
+
+          <!-- Task 5 -->
+
+          <!-- End of Task 5 -->
+        </section>
+
+      </div>
+    </div>
+    <script src="reveal.js/lib/js/head.min.js"></script>
+    <script src="reveal.js/js/reveal.js"></script>
+    <script type="text/javascript">
+
+// cache question-type-name-label
+var questionTypeNameLabelEl = document.getElementById('question-type-name-label');
+
+function handleSlideChange(slideId){
+  if(slideId === 'splash'){
+    document.getElementById("icwe-logo").style.display = 'block';
+  }else{
+    document.getElementById('icwe-logo').style.display = 'none';
+  }
+}
+
+document.getElementById('many-question-types').addEventListener('mouseover', function(evt){
+  if(evt.target.classList.contains('img-frame')){
+    questionTypeNameLabelEl.textContent = evt.target.dataset.questionName;
+  }else if(evt.target.classList.contains('img-frame-link')){
+     questionTypeNameLabelEl.textContent = evt.target.parentNode.dataset.questionName;
+  }else{
+    questionTypeNameLabelEl.textContent = document.getElementById('img-message').dataset.questionName;
+  }
+});
+
+Reveal.addEventListener( 'slidechanged', function( event ) {
+  handleSlideChange(event.currentSlide.id)
+});
+
+Reveal.addEventListener("fragmentshown", function(evt){
+  if(! evt.fragment) return;
+
+  // question types
+  if(evt.fragment.classList.contains('img-frame')){
+    questionTypeNameLabelEl.textContent = evt.fragment.dataset.questionName;
+  }
+});
+
+    </script>
+    <script>
+      setTimeout(function(){
+        try{
+          Reveal.initialize({
+            dependencies:[
+              { src: 'reveal.js/plugin/notes/notes.js', async: true },
+            ],
+            pdfMaxPagesPerSlide: 1,
+            history: true,
+            loop: true,
+          });
+          handleSlideChange(Reveal.getCurrentSlide().id);
+        }catch(err){
+          console.log(err)
+        }
+      }, 500)
+    </script>
+  </body>
+</html>

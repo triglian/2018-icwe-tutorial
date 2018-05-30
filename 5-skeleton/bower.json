@@ -1,0 +1,17 @@
+{
+  "name": "2018-icwe-tutorial-skeleton",
+  "version": "0.0.0",
+  "authors": [
+    "Vassilis Triglianos <triglian@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+  }
+}
