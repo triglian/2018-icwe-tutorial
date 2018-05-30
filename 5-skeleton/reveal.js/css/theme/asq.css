@@ -629,6 +629,14 @@ body {
 /*********************************************
  * Slide specific
  *********************************************/
+#icwe-logo{
+  opacity: 0;
+  transition: opacity 250ms ease-out;
+}
+
+body.on-splash #icwe-logo{
+  opacity: 1;
+}
 
 
 /* PRINT */

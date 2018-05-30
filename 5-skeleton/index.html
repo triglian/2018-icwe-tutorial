@@ -15,28 +15,7 @@
       window.Polymer.dom = 'shadow';
     </script>
     <link rel="import" href="http://asq.inf.usi.ch/element-docs/paper-icon-button/paper-icon-button.html">
-    <link rel="import" href="http://asq.inf.usi.ch/element-docs/asq-frontend-essentials/asq-frontend-essentials.html">
-    <link rel="import" href="http://asq.inf.usi.ch/element-docs/asq-solution/asq-solution.html">
-    <link rel="import" href="http://asq.inf.usi.ch/element-docs/asq-option/asq-option.html">
-    <link rel="import" href="http://asq.inf.usi.ch/element-docs/asq-stem/asq-stem.html">
-    <link rel="import" href="elements/asq-welcome/asq-welcome.html">
-    <link rel="import" href="http://asq.inf.usi.ch/element-docs/asq-code-q/asq-code-q.html">
-    <link rel="import" href="http://asq.inf.usi.ch/element-docs/asq-css-select-q/asq-css-select-q.html">
-    <link rel="import" href="http://asq.inf.usi.ch/element-docs/asq-fiddle-q/asq-fiddle-q.html">
-    <link rel="import" href="http://asq.inf.usi.ch/element-docs/asq-exercise/asq-exercise.html">
-    <link rel="import" href="http://asq.inf.usi.ch/element-docs/asq-js-eval-q/asq-js-eval-q.html">
-    <link rel="import" href="http://asq.inf.usi.ch/element-docs/asq-js-function-body-q/asq-js-function-body-q.html">
-    <link rel="import" href="http://asq.inf.usi.ch/element-docs/asq-multi-choice-q/asq-multi-choice-q.html">
-    <link rel="import" href="http://asq.inf.usi.ch/element-docs/asq-text-input-q/asq-text-input-q.html">
-    <link rel="import" href="http://asq.inf.usi.ch/element-docs/asq-text-input-q/asq-text-input-q-stats.html">
-    <link rel="import" href="http://asq.inf.usi.ch/element-docs/asq-highlight-q/asq-highlight-q.html">
-    <link rel="import" href="http://asq.inf.usi.ch/element-docs/asq-matchable-behavior/asq-matchable-behavior.html">
-    <link rel="import" href="http://asq.inf.usi.ch/element-docs/asq-buckets-q/asq-buckets-q.html">
-    <link rel="import" href="http://asq.inf.usi.ch/element-docs/asq-order-q/asq-order-q.html">
-    <link rel="import" href="http://asq.inf.usi.ch/element-docs/asq-sqlite-q/asq-sqlite-q.html">
-    <link rel="import" href="http://asq.inf.usi.ch/element-docs/asq-rating-q/asq-rating-q.html">
-    <link rel="import" href="http://asq.inf.usi.ch/element-docs/iron-flex-layout/classes/iron-flex-layout.html">
-
+    <link rel="import" href="http://asq.inf.usi.ch/element-docs/asq-elements/asq-elements.html">
 
     <link rel="stylesheet" href="reveal.js/css/reveal.css">
     <!-- <link rel="stylesheet" href="reveal.js/css/print/pdf.css"> -->
@@ -80,7 +59,7 @@
           </div>
 
           <h2 id="presentationTitle" class="pastel-blue">Skeleton Presentation</h2>
-          <asq-welcome></asq-welcome>
+          <asq-welcome join-message="Join us at https://goo.gl/9LXiQZ"></asq-welcome>
         </section>
         
         <section id="task-3">
@@ -189,14 +168,6 @@
 // cache question-type-name-label
 var questionTypeNameLabelEl = document.getElementById('question-type-name-label');
 
-function handleSlideChange(slideId){
-  if(slideId === 'splash'){
-    document.getElementById("icwe-logo").style.display = 'block';
-  }else{
-    document.getElementById('icwe-logo').style.display = 'none';
-  }
-}
-
 document.getElementById('many-question-types').addEventListener('mouseover', function(evt){
   if(evt.target.classList.contains('img-frame')){
     questionTypeNameLabelEl.textContent = evt.target.dataset.questionName;
@@ -205,6 +176,15 @@ document.getElementById('many-question-types').addEventListener('mouseover', fun
   }else{
     questionTypeNameLabelEl.textContent = document.getElementById('img-message').dataset.questionName;
   }
+});
+
+Reveal.addEventListener( 'ready', function( event ) {
+  document.body.classList.add("on-"+event.currentSlide.id);
+});
+
+Reveal.addEventListener( 'slidechanged', function( event ) {
+  document.body.classList.remove("on-"+event.previousSlide.id);
+  document.body.classList.add("on-"+event.currentSlide.id);
 });
 
 Reveal.addEventListener( 'slidechanged', function( event ) {
@@ -219,7 +199,6 @@ Reveal.addEventListener("fragmentshown", function(evt){
     questionTypeNameLabelEl.textContent = evt.fragment.dataset.questionName;
   }
 });
-
     </script>
     <script>
       setTimeout(function(){
@@ -232,7 +211,6 @@ Reveal.addEventListener("fragmentshown", function(evt){
             history: true,
             loop: true,
           });
-          handleSlideChange(Reveal.getCurrentSlide().id);
         }catch(err){
           console.log(err)
         }

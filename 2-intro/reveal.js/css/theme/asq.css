@@ -732,9 +732,31 @@ graph-slideshow .fragment .previous{
  * Slide specific Rules
  *********************************************/
 
+
 /*********************************************
  * Splash
  *********************************************/
+
+#branding,
+#usi-logo-round-holder{
+  opacity: 0;
+  transition: opacity 250ms ease-out;
+} 
+
+body.on-splash #branding,
+body.on-splash #usi-logo-round-holder{
+  opacity: 1;
+}
+
+#joinasqmsg{
+  opacity: 1;
+  transition: opacity 250ms ease-out;
+} 
+
+body.on-splash #joinasqmsg{
+  opacity: 0;
+}
+
 #splash a {
   color: inherit;
 }
@@ -1025,6 +1047,10 @@ graph-slideshow .fragment .previous{
  *********************************************/
 #closing-blockquote{
   display: none;
+} 
+
+body.on-closing #closing-blockquote{
+  display: block;
 }
 
 #closing-blockquote blockquote {

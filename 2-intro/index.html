@@ -14,9 +14,9 @@
       window.Polymer = window.Polymer || {};
       window.Polymer.dom = 'shadow';
     </script>
-    <link rel="import" href="bower_components/paper-icon-button/paper-icon-button.html">
-    <link rel="import" href="bower_components/asq-elements/asq-elements.html">
-    <link rel="import" href="bower_components/iron-flex-layout/classes/iron-flex-layout.html">
+    <link rel="import" href="http://asq.inf.usi.ch/element-docs/paper-icon-button/paper-icon-button.html">
+    <link rel="import" href="http://asq.inf.usi.ch/element-docs/asq-elements/asq-elements.html">
+    <link rel="import" href="http://asq.inf.usi.ch/element-docs/iron-flex-layout/classes/iron-flex-layout.html">
 
 
     <link rel="stylesheet" href="reveal.js/css/reveal.css">
@@ -98,7 +98,7 @@
             <p class="small" style="margin-top:1em;">
               <a href="mailto:vasileios.triglianos@usi.ch">vasileios.triglianos@usi.ch</a><br>
             </p>
-            <asq-welcome></asq-welcome>
+            <asq-welcome join-message="Join us at https://goo.gl/9LXiQZ"></asq-welcome>
           </div>
              
           <aside class="notes">
@@ -366,38 +366,13 @@ SVGInjector(mySVGsToInject);
 // cache question-type-name-label
 var questionTypeNameLabelEl = document.getElementById('question-type-name-label');
 
-function handleSlideChange(slideId){
-  if(slideId == 'modeling'){
-    setTimeout(function(){
-      var el = document.querySelector(".backgrounds .slide-background.present");
-      el.style.width = '1280px';
-      el.style.height = '100%';
-      el.style.backgroundColor = '#444';
-      el.style.left = '1220px';
-    }, 100)
-  }
-
-  if(slideId === 'splash'){
-    document.getElementById("joinasqmsg").style.display = "none";
-    document.getElementById("branding").style.display = "block";
-    document.getElementById("usi-logo-round-holder").style.display = "block";
-  }else{
-    document.getElementById("joinasqmsg").style.display = "block";
-    document.getElementById("branding").style.display = "none";
-    document.getElementById("usi-logo-round-holder").style.display = "none";
-  }
-
-  if(slideId === "closing"){
-    document.getElementById('closing-blockquote').style.display = "block";
-  }else{
-    document.getElementById('closing-blockquote').style.display = "none";
-  }
-
-}
-
+Reveal.addEventListener( 'ready', function( event ) {
+  document.body.classList.add("on-"+event.currentSlide.id);
+});
 
 Reveal.addEventListener( 'slidechanged', function( event ) {
-  handleSlideChange(event.currentSlide.id)
+  document.body.classList.remove("on-"+event.previousSlide.id);
+  document.body.classList.add("on-"+event.currentSlide.id);
 });
 
 Reveal.addEventListener("fragmenthidden", function(evt){
@@ -486,7 +461,6 @@ Reveal.addEventListener("fragmentshown", function(evt){
             // minScale: 1,
             // maxScale: 1
           });
-          handleSlideChange(Reveal.getCurrentSlide().id);
         }catch(err){
           console.log(err)
         }
