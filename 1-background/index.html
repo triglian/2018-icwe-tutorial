@@ -1,0 +1,155 @@
+<!doctype html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=1024" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <title>ICWE2018 - ASQ tutorial | Background</title>
+    
+
+    <script src="bower_components/webcomponentsjs/webcomponents-lite.js"></script> 
+    <!-- Use shadow dom -->
+    <script>
+      window.Polymer = window.Polymer || {};
+      window.Polymer.dom = 'shadow';
+    </script>
+    <link rel="import" href="bower_components/paper-icon-button/paper-icon-button.html">
+    <link rel="import" href="bower_components/asq-elements/asq-elements.html">
+    <link rel="import" href="bower_components/iron-flex-layout/classes/iron-flex-layout.html">
+
+
+    <link rel="stylesheet" href="reveal.js/css/reveal.css">
+    <!-- <link rel="stylesheet" href="reveal.js/css/print/pdf.css"> -->
+    <link rel="stylesheet" href="reveal.js/css/theme/asq.css" id="theme">
+
+    <!-- Code syntax highlighting -->
+    <link rel="stylesheet" href="reveal.js/lib/css/zenburn.css">   
+
+    <link rel="import" href="shared-styles.html">
+    <style is="custom-style" include="shared-styles"></style> 
+
+  </head>
+
+  <body data-asq-role="viewer">
+    <asq-settings max-num-submissions="-1" slideflow="ctrl" assessment="none"></asq-settings>
+
+    <img id="icwe-logo" src="img/logo-icwe.png" alt="ICWE 2018 logo" style="width: 100px;">
+
+    <a id="asq-logo-fixed" href="http://asq.inf.usi.ch/" target="_blank">
+      <img  src="img/ASQLogoBlack.png" alt="ASQ logo" style="width: 100px;">
+    </a>
+      
+
+
+    <div class="reveal">
+
+      <div id="joinasqmsg">Join us at <a class="bold" style="font-size: 1.2em; text-shadow:none; text-align: right; padding: 0 10px;" href="http://bit.do/asqdevt">http://bit.do/asqdevt</a></div>
+
+      <!-- Any section element inside of this container is displayed as a slide -->
+
+      <div class="slides">
+        <section id="splash">
+
+          <div class="asq-logo">
+            <img class="anim a" src="svg/a.svg">
+            <img class="anim backfacing a" src="svg/a.svg">
+            <img class="anim s" src="svg/s.svg">
+            <img class="anim backfacing s" src="svg/s.svg">
+            <img class="anim q" src="svg/q.svg">
+            <img class="anim backfacing q" src="svg/q.svg">
+          </div>
+
+          <h2 id="presentationTitle" class="pastel-blue">Welcome!</h2>
+          <asq-welcome></asq-welcome>
+        </section>
+
+        <section id="goals">
+          <h2>Tutorial Goals</h2>
+
+          <ul><li>Learn about how to use the Web to make interactive presentations</li></ul>
+
+        </section>
+        
+        <section id="web">
+          <h2>Web-based Presentations</h2>
+          <p class="pro">Advantages</p>
+          <ul>
+            <li>Open format using HTML5</li>
+            <li>Declarative formatting with CSS</li>
+            <li>Play slides in any compatible Web browser</li>
+            <li>Responsive to adapt to different screen sizes/devices</li>
+            <li>Programmable interactive slides</li>
+          </ul>
+          <p class="con">Disadvantages</p>
+          <ul>
+            <li>Limited WYSIWYG editors (improving)</li>
+            <li>Difficult to reuse individual slides</li>
+            <li>Too many frameworks to choose from</li>
+          </ul>
+        </section>
+
+        <section id="web">
+          <h2>Web-based Presentation Frameworks</h2>
+          <p>Advantages</p>
+          <ul>
+            <li>Open format using HTML5</li>
+            <li>Declarative formatting with CSS</li>
+            <li>Play slides in any Web browser</li>
+            <li>Responsive to adapt to different screen sizes/devices</li>
+          </ul>
+          <p>Disadvantages</p>
+          <ul>
+            <li>Limited WYSIWYG editors (improving)</li>
+            <li>Difficult to reuse individual slides</li>
+            <li>Too many frameworks to choose from</li>
+          </ul>
+        </section>
+
+        <section id="task-4">
+          <h4 class="pastel-blue"> Task 3</h4>
+
+          <!-- Task 4 -->
+          
+          <!-- End of Task 4 -->
+        </section>
+
+      </div>
+    </div>
+    <script src="reveal.js/lib/js/head.min.js"></script>
+    <script src="bower_components/svg-injector/dist/svg-injector.min.js"></script>
+    <script src="reveal.js/js/reveal.js"></script>
+    <script type="text/javascript">
+
+//and inject svgs
+var mySVGsToInject = document.querySelectorAll('img.svg');
+SVGInjector(mySVGsToInject);
+
+// cache question-type-name-label
+var questionTypeNameLabelEl = document.getElementById('question-type-name-label');
+
+Reveal.addEventListener( 'slidechanged', function( event ) {
+  document.body.classList.remove("on-"+event.previousSlide.id);
+  document.body.classList.add("on-"+event.currentSlide.id);
+});
+
+    </script>
+    <script>
+      setTimeout(function(){
+        try{
+          Reveal.initialize({
+            dependencies:[
+              { src: 'reveal.js/plugin/notes/notes.js', async: true },
+            ],
+            pdfMaxPagesPerSlide: 1,
+            history: true,
+            loop: true,
+          });
+          handleSlideChange(Reveal.getCurrentSlide().id);
+        }catch(err){
+          console.log(err)
+        }
+      }, 500)
+    </script>
+  </body>
+</html>

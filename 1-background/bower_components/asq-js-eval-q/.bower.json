@@ -1,0 +1,44 @@
+{
+  "name": "asq-js-eval-q",
+  "homepage": "https://github.com/ASQ-USI-Elements/asq-js-eval-q",
+  "authors": [
+    "Vasileios Triglianos <triglian@gmail.com>"
+  ],
+  "description": "ASQ JavaScript Eval question type element",
+  "keywords": [
+    "ASQ"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "asq-base": "ASQ-USI-Elements/asq-base#master",
+    "asq-stem": "ASQ-USI-Elements/asq-stem#master",
+    "iron-list": "polymerelements/iron-list#^1.3.8",
+    "iron-flex-layout": "PolymerElements/iron-flex-layout#^1.0.5",
+    "paper-input": "PolymerElements/paper-input#^1.0.18",
+    "paper-item": "polymerelements/paper-item#^1.0.7",
+    "paper-tabs": "polymerelements/paper-tabs#^1.0.10",
+    "polymer": "polymer/polymer#^1.2.1",
+    "paper-styles": "PolymerElements/paper-styles#^1.0.12"
+  },
+  "ignore": [
+    "index.js",
+    "lib",
+    "package.json",
+    "node_modules",
+    ".gitignore",
+    "test/server"
+  ],
+  "devDependencies": {
+    "iron-component-page": "PolymerElements/iron-component-page#^1.1.4",
+    "web-component-tester": "Polymer/web-component-tester#^4.2.0"
+  },
+  "_release": "a4089cb7a8",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "a4089cb7a83eb183ea5f26cd4489d7f51ce43ba5"
+  },
+  "_source": "https://github.com/ASQ-USI-Elements/asq-js-eval-q.git",
+  "_target": "master",
+  "_originalSource": "ASQ-USI-Elements/asq-js-eval-q"
+}
