@@ -14,9 +14,18 @@
       window.Polymer = window.Polymer || {};
       window.Polymer.dom = 'shadow';
     </script>
-    <link rel="import" href="https://dev.asq.inf.usi.ch/paper-icon-button/paper-icon-button.html">
+
+
+    <link rel="import" href="shared-styles.html">
+    <style is="custom-style" include="shared-styles"></style> 
+
+
+    <!-- <link rel="import" href="https://dev.asq.inf.usi.ch/paper-icon-button/paper-icon-button.html">
     <link rel="import" href="https://dev.asq.inf.usi.ch/asq-elements/asq-elements.html">
     <link rel="import" href="https://dev.asq.inf.usi.ch/iron-flex-layout/classes/iron-flex-layout.html">
+     --><link rel="import" href="http://asq.inf.usi.ch/paper-icon-button/paper-icon-button.html">
+    <link rel="import" href="http://asq.inf.usi.ch/asq-elements/asq-elements.html">
+    <link rel="import" href="http://asq.inf.usi.ch/iron-flex-layout/classes/iron-flex-layout.html">
 
 
     <link rel="stylesheet" href="reveal.js/css/reveal.css">
@@ -25,9 +34,6 @@
 
     <!-- Code syntax highlighting -->
     <link rel="stylesheet" href="reveal.js/lib/css/zenburn.css">   
-
-    <link rel="import" href="shared-styles.html">
-    <style is="custom-style" include="shared-styles"></style> 
 
   </head>
 
@@ -39,6 +45,10 @@
     <a id="asq-logo-fixed" href="http://asq.inf.usi.ch/" target="_blank">
       <img  src="img/ASQLogoBlack.png" alt="ASQ logo" style="width: 100px;">
     </a>
+
+    <script>function tick() {var d = new Date(); document.getElementById("clock").innerHTML = d.getHours() + ":" + (d.getMinutes() < 10 ? "0" + d.getMinutes() : d.getMinutes());}
+setInterval(tick,500);</script>
+<div id="clock">XX:YY</div>  
       
 
 
@@ -71,7 +81,7 @@
 
         </section>
         
-        <section id="web">
+        <section id="web-plus">
           <h2>Web Presentations</h2>
           <p class="pro">Advantages</p>
           <ul>
@@ -79,15 +89,84 @@
             <li>Declarative formatting with CSS</li>
             <li>Play slides in any compatible Web browser</li>
             <li>Responsive to adapt to different screen sizes/devices</li>
+            <li>Go beyond the screen/slide borders (Infinite Zoomable Canvas)</li>
             <li>Programmable interactive slides</li>
           </ul>
+        </section>
+
+          <section id="inter-time">
+          <h2>Programmable Slides</h2>
+<script>function tick() {var d = new Date(); document.getElementById("iclock").innerHTML = d.getHours() + ":" + (d.getMinutes() < 10 ? "0" + d.getMinutes() : d.getMinutes()) + ":" + (d.getSeconds() < 10 ? "0" + d.getSeconds() : d.getSeconds());}
+setInterval(tick,500);</script>
+<div id="iclock">XX:YY</div>  
+        </section>
+
+        <section id="inter-dom">
+          <h2>Interactive Slides</h2>
+          <script>var global_counter = 0;
+    function add(b){
+      var dom = document.getElementById("list");
+        dom.innerHTML = "<li>A"+(global_counter++)+"</li>\n" + dom.innerHTML;
+      }
+          </script>
+          <ul id="list">
+            <li><button onclick="add(this);">Click me</button></li>
+          </ul>
+        </section>
+
+
+
+            <section id="inter-svg">
+<script>
+
+
+function rainbow(numOfSteps, step) {
+        // This function generates vibrant, "evenly spaced" colours (i.e. no clustering). This is ideal for creating easily distinguishable vibrant markers in Google Maps and other apps.
+        // Adam Cole, 2011-Sept-14
+        // HSV to RBG adapted from: http://mjijackson.com/2008/02/rgb-to-hsl-and-rgb-to-hsv-color-model-conversion-algorithms-in-javascript
+        var r, g, b;
+        var h = step / numOfSteps;
+        var i = ~~(h * 6);
+        var f = h * 6 - i;
+        var q = 1 - f;
+        switch(i % 6){
+            case 0: r = 1, g = f, b = 0; break;
+            case 1: r = q, g = 1, b = 0; break;
+            case 2: r = 0, g = 1, b = f; break;
+            case 3: r = 0, g = q, b = 1; break;
+            case 4: r = f, g = 0, b = 1; break;
+            case 5: r = 1, g = 0, b = q; break;
+        }
+        return "rgba("+(~ ~(r * 255))+","+(~ ~(g * 255))+","+(~ ~(b * 255))+",";//1)";
+
+//        var c = "#" + ("00" + (~ ~(r * 255)).toString(16)).slice(-2) + ("00" + (~ ~(g * 255)).toString(16)).slice(-2) + ("00" + (~ ~(b * 255)).toString(16)).slice(-2);
+//        return (c);
+    }
+
+var step = 0;
+function changeColor(e) {
+  e.setAttribute("fill", rainbow(10,step++)+"1)" );
+}
+
+</script>
+    <h2>Interactive Graphics</h2>
+    <svg width="640" height="320" x="0px" y="0px">
+    <g xmlns="http://www.w3.org/2000/svg" id="composite_figure_id_0" transform=" translate(0 , 0)"><rect x="0" y="0" rx="15" ry="15" width="374" height="237" fill="rgb(128,128,128)" stroke="white" stroke-width="10" stroke-dasharray="5, 5" transform=" translate(185 , 78)" opacity="0.25"/>
+<ellipse cx="0" cy="0" rx="68" ry="61.5" fill="rgb(112,219,147)" stroke="black" stroke-width="2" transform=" translate(287 , 162.5) rotate(0) scale(1)" onclick="changeColor(this)"/>
+<rect x="0" y="0" rx="0" ry="0" width="126" height="113" fill="rgb(112,219,147)" stroke="black" stroke-width="2" transform=" translate(309 , 166)" onclick="changeColor(this)"/>
+<polygon fill="rgb(112,219,147)" stroke="black" stroke-width="2" points="383,217 465,101 539,218 472,251 " transform=" translate(0 , 0)" onclick="changeColor(this)"/></g>
+    </svg>
+    </section> 
+
+        <section id="web-minus">
+          <h2>Web Presentations</h2>
           <p class="con">Disadvantages</p>
           <ul>
             <li>Limited WYSIWYG editors</li>
             <li>Difficult to reuse individual slides</li>
             <li>Too many frameworks to choose from</li>
           </ul>
-        </section>
+        </section>       
 
         <section id="webf">
           <h2>Web Presentation Frameworks</h2>
@@ -125,7 +204,7 @@
         </section>
 
 
-        <section id="asq-skills">
+        <section id="asq-html-skills">
           <asq-exercise>
           <asq-multi-choice-q multi>
             <asq-stem><h4>How do you usually write your Web pages?</h4></asq-stem>
@@ -133,11 +212,27 @@
               <asq-option name="b">raw HTML/CSS in Sublime</asq-option>
               <asq-option name="c">Wordpress</asq-option>
               <asq-option name="d">Markdown</asq-option>
+              <asq-option name="l">Latex2HTML</asq-option>
               <asq-option name="e">I don't write HTML pages, I generate them from my data models</asq-option>
               <asq-option name="o" is-other>Other</asq-option>
              </asq-multi-choice-q>  
         </asq-exercise>
         </section>
+
+        <section id="asq-ppt-skills">
+          <asq-exercise>
+          <asq-multi-choice-q multi>
+            <asq-stem><h4>How do you usually write your presentation slides?</h4></asq-stem>
+              <asq-option name="a">Powerpoint</asq-option>
+              <asq-option name="b">Keynote</asq-option>
+              <asq-option name="c">Latex Beamer</asq-option>
+              <asq-option name="d">HTML</asq-option>
+              <asq-option name="o" is-other>Other</asq-option>
+             </asq-multi-choice-q>  
+        </asq-exercise>
+        </section>
+
+
 
 
       </div>
@@ -159,8 +254,12 @@ Reveal.addEventListener( 'ready', function( event ) {
 });
 
 Reveal.addEventListener( 'slidechanged', function( event ) {
-  document.body.classList.remove("on-"+event.previousSlide.id);
-  document.body.classList.add("on-"+event.currentSlide.id);
+  if (event.previousSlide) {
+    document.body.classList.remove("on-"+event.previousSlide.id);
+  }
+  if (event.currentSlide) {
+    document.body.classList.add("on-"+event.currentSlide.id);
+  }
 });
 
     </script>
