@@ -8,7 +8,7 @@
     <title>ICWE2018 - ASQ tutorial | Background</title>
     
 
-    <script src="bower_components/webcomponentsjs/webcomponents-lite.js"></script> 
+    <script src="http://asq.inf.usi.ch/element-docs/webcomponentsjs/webcomponents-lite.js"></script> 
     <!-- Use shadow dom -->
     <script>
       window.Polymer = window.Polymer || {};
@@ -144,7 +144,6 @@ Reveal.addEventListener( 'slidechanged', function( event ) {
             history: true,
             loop: true,
           });
-          handleSlideChange(Reveal.getCurrentSlide().id);
         }catch(err){
           console.log(err)
         }
