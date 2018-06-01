@@ -2,9 +2,6 @@
 
 # Todo
 
-- [ ] link asq-dependencies
-- [ ] Delete mathjax
-- [ ] Clean up `bower.json` of dependencies that are not needed (SVG Injector?)
 - [ ] in-presentation task guide
 
 # Prerequisites
