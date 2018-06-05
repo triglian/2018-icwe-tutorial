@@ -8,7 +8,7 @@
 ## Task 2 - Launch the skeleton presentation locally
 
 1. Navigate into `<turorial_dir>/skeleton/`, where `<turorial_dir>` is the directory you created in _Task 1_.
-1. Open `index.html` with your browser
+1. Open `index.html` with your browser.
 
 ## Task 3 - Create you first ASQ exercise
 
@@ -36,18 +36,18 @@ Sometimes it's convenient to display statistics about a question type in a seper
 
 ## Task 5 - Create an account in ASQ
 
-1. Visit ASQ at [http://dev.asq.inf.usi.ch/](http://dev.asq.inf.usi.ch/)
-1. [Register](https://dev.asq.inf.usi.ch/signup)
-1.  [login](https://dev.asq.inf.usi.ch/login)
+1. Visit ASQ at [http://dev.asq.inf.usi.ch/](http://dev.asq.inf.usi.ch/).
+1. [Register](https://dev.asq.inf.usi.ch/signup).
+1.  [login](https://dev.asq.inf.usi.ch/login).
 
 ## Task 6 - Upload your presentation in ASQ
 
 1. Make sure you are logged in in ASQ. 
 1. Zip the _contents_ of the `skeleton/` directory. _NOT_ the skeleton directory itself
 1. Go to the [uploads](https://dev.asq.inf.usi.ch/upload/) page.
-1. Drag and drop the zip file
-1. Give a name to your presentation
-1. Click Upload
+1. Drag and drop the zip file.
+1. Give a name to your presentation.
+1. Click Upload.
 
 ## Task 7 - Experiment with other ASQ question types
 
@@ -59,8 +59,8 @@ ASQ supports 13 question types!
 
 ## Task 8 - Update a presentation using curl
 
-1. Go on the presentations page of your account following the "My Presentations link"
-2. Click on the upload icon <img src="./upload_icon.png" alt="Upload Icon" style="height: 40px; position:relative; top: 12px;"> of the presentation you want to update
+1. Go on the presentations page of your account following the "My Presentations link".
+2. Click on the upload icon <img src="./upload_icon.png" alt="Upload Icon"> of the presentation you want to update.
 3. Copy paste the curl command in your terminal and press ENTER.
 4. When the upload is done refresh your live presentation page!
 
