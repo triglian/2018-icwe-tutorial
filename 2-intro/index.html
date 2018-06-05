@@ -378,8 +378,12 @@ Reveal.addEventListener( 'ready', function( event ) {
 });
 
 Reveal.addEventListener( 'slidechanged', function( event ) {
-  document.body.classList.remove("on-"+event.previousSlide.id);
-  document.body.classList.add("on-"+event.currentSlide.id);
+  if (event.previousSlide) {
+    document.body.classList.remove("on-"+event.previousSlide.id);
+  }
+  if (event.currentSlide) {
+    document.body.classList.add("on-"+event.currentSlide.id);
+  }
 });
 
 Reveal.addEventListener("fragmenthidden", function(evt){

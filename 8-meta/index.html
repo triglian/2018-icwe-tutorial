@@ -291,40 +291,20 @@
     <script src="reveal.js/js/reveal.js"></script>
     <script type="text/javascript">
 
-// cache question-type-name-label
-var questionTypeNameLabelEl = document.getElementById('question-type-name-label');
-
-document.getElementById('many-question-types').addEventListener('mouseover', function(evt){
-  if(evt.target.classList.contains('img-frame')){
-    questionTypeNameLabelEl.textContent = evt.target.dataset.questionName;
-  }else if(evt.target.classList.contains('img-frame-link')){
-     questionTypeNameLabelEl.textContent = evt.target.parentNode.dataset.questionName;
-  }else{
-    questionTypeNameLabelEl.textContent = document.getElementById('img-message').dataset.questionName;
-  }
-});
 
 Reveal.addEventListener( 'ready', function( event ) {
   document.body.classList.add("on-"+event.currentSlide.id);
 });
 
 Reveal.addEventListener( 'slidechanged', function( event ) {
-  document.body.classList.remove("on-"+event.previousSlide.id);
-  document.body.classList.add("on-"+event.currentSlide.id);
-});
-
-Reveal.addEventListener( 'slidechanged', function( event ) {
-  handleSlideChange(event.currentSlide.id)
-});
-
-Reveal.addEventListener("fragmentshown", function(evt){
-  if(! evt.fragment) return;
-
-  // question types
-  if(evt.fragment.classList.contains('img-frame')){
-    questionTypeNameLabelEl.textContent = evt.fragment.dataset.questionName;
+  if (event.previousSlide) {
+    document.body.classList.remove("on-"+event.previousSlide.id);
+  }
+  if (event.currentSlide) {
+    document.body.classList.add("on-"+event.currentSlide.id);
   }
 });
+
     </script>
     <script>
       setTimeout(function(){
