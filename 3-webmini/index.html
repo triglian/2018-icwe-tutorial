@@ -160,34 +160,34 @@ input:invalid { background-color: red;  }</code></pre>
 
  <div class="flex-controls">
   <p class="small">Control the flex box container.</p>
-  <pre><code style="background: rgb(0, 67, 148); color: white">flex-direction: <select onchange="setStyle(this,'flex-direction')">
+  <pre><code style="background: rgb(0, 67, 148); color: white">flex-direction: </code><select onchange="setStyle(this,'flex-direction')">
     <option value="row">row</option>
     <option value="row-reverse">row-reverse</option>
     <option value="column">column</option>
     <option value="column-reverse">column-reverse</option>
-</select></code></pre>
-<pre><code style="background: rgb(0, 67, 148); color: white">flex-wrap: <select onchange="setStyle(this,'flex-wrap')">
+</select></pre>
+<pre><code style="background: rgb(0, 67, 148); color: white">flex-wrap: </code><select onchange="setStyle(this,'flex-wrap')">
     <option value="nowrap">nowrap</option>
     <option value="wrap">wrap</option>   
     <option value="wrap-reverse">wrap-reverse</option>
-</select></code></pre>
-<pre><code style="background: rgb(0, 67, 148); color: white">justify-content: <select onchange="setStyle(this,'justify-content')">
+</select></pre>
+<pre><code style="background: rgb(0, 67, 148); color: white">justify-content: </code><select onchange="setStyle(this,'justify-content')">
     <option value="flex-start">flex-start</option>
     <option value="flex-end">flex-end</option>
     <option value="center">center</option>
     <option value="space-around">space-around</option>
     <option value="space-between">space-between</option>
-</select></code></pre>
-<pre><code style="background: rgb(0, 67, 148); color: white">align-items: <select onchange="setStyle(this,'align-items')">
+</select></pre>
+<pre><code style="background: rgb(0, 67, 148); color: white">align-items: </code><select onchange="setStyle(this,'align-items')">
     <option value="stretch">stretch</option>
     <option value="flex-start">flex-start</option>
     <option value="flex-end">flex-end</option>
     <option value="center">center</option>
     <option value="baseline">baseline</option>
     
-</select></code></pre>
+</select></pre>
 <p class="small">Grow the content proportionally</p>
-<pre><code style="background: rgb(100, 167, 248);"><select id="flex-demo-which" onchange="setFlexWhich(this)">
+<pre style="background: rgb(100, 167, 248);"><select id="flex-demo-which" onchange="setFlexWhich(this)">
     <option value="all">all</option>
     <option value="1">[1]</option>
     <option value="2">[2]</option>
@@ -203,7 +203,7 @@ input:invalid { background-color: red;  }</code></pre>
     <option value="2">2</option> 
     <option value="3">3</option> 
     <option value="4">4</option>    
-</select></code></pre>
+</select></pre>
 </div>
 <h2>Flexbox demo</h2>
 <div class="flex-box-container">
@@ -240,14 +240,22 @@ input:invalid { background-color: red;  }</code></pre>
 
 <asq-exercise>
   <asq-fiddle-q editor-font-size="0.5em" contenteditable>
-      <asq-stem>Make the input react to the mouse and smoothly grow its size when it gets focus</asq-stem>
+      <asq-stem>Make the navigation bar fit on the left side of the main article content</asq-stem>
       <template seed>
-        <pre html><input type="text"
-         placeholder="&#x1F50D;"></pre>
-        <pre css>input {
-    font-size: 2em;
-    width: 10em;
-}</pre>
+        <pre html><header>Header</header>
+<main>
+<nav>Navigation bar</nav>
+<article>Article Content<br/>
+Content<br/>
+Content<br/>
+Content</article></main>
+<footer>Footer</footer></pre>
+        <pre css>header, nav, main, footer {border: 1px solid black; color: white}
+header, footer {background: blue}
+nav {background: green}
+article {background: black}
+main {background: red;}
+        </pre>
         <pre js></pre>
       </template> 
     </asq-fiddle-q>
@@ -257,6 +265,108 @@ input:invalid { background-color: red;  }</code></pre>
 
 </section>
 
+<section id="js">
+
+<section id="js-fn">
+
+      <asq-exercise>
+        <asq-js-function-body-q function-name="min(a,b)" test-exp="min(10,1);">
+            <asq-stem>Implement a function that returns the minimum value of its two parameters:</asq-stem>
+        </asq-js-function-body-q>
+    </asq-exercise>
+
+</section>
+
+<section id="js-var">
+
+    <h2>Variables</h2>
+    <pre><code><b>var</b> g = 42; //global variable
+
+function name(parameters) { 
+  <b>var</b> x; //local variable (function scope)
+
+<div class="substep">  if (parameters) {
+    <b>let</b> y = 2; //local variable (block scope)
+  }</div>
+<div class="substep">  <b>const</b> c = "Constant"; //(block scope)
+</div>
+  return;
+}</code></pre>
+
+</section>
+
+<section id="asq-js">
+
+<asq-exercise>
+        <asq-highlight-q theme="" mode="javascript" font-size="0.5em">
+            <asq-solution>{ "428bca": [ { "start": { "row": 0, "column": 4 }, "end": { "row": 0, "column": 5 }, "id": 64 }, { "start": { "row": 5, "column": 2 }, "end": { "row": 5, "column": 3 }, "id": 68 } ], "d9534f": [ { "start": { "row": 4, "column": 6 }, "end": { "row": 4, "column": 7 }, "id": 72 } ] }
+            </asq-solution>
+            <asq-stem>What is the Scope of the variables?</asq-stem>
+            <asq-hl-color-task color="d9534f" colorName="d9534f">Local Variable</asq-hl-color-task>
+            <asq-hl-color-task color="428bca" colorName="428bca">Global Variable</asq-hl-color-task>
+            <code>var a = 12;
+
+function f(x,y) {
+  
+  var b = 42;
+  c = 'String';
+  
+}</code>
+        </asq-highlight-q>
+    </asq-exercise>
+
+  </section>
+
+<section id="asq-passing">
+  <h3>Parameter Passing: By Value</h3>
+    <p>Primitive types (Numbers, Strings, Booleans)</p>
+          <asq-js-eval-q value="var a = 1;
+function tryInc(x) { 
+  x++; 
+  return x; 
+}
+">
+            <asq-stem>Parameter Passing: By Value</asq-stem>
+          </asq-js-eval-q>
+</section>
+
+<section id="asq-passing2">
+          <asq-js-eval-q value="var a = [1];
+function tryInc(x) { 
+  x[0]++; 
+  return x[0]; 
+}
+">
+            <asq-stem>Array Parameter Passing: By Value or Reference?</asq-stem>
+          </asq-js-eval-q>
+</section>
+
+<section id="passing2">
+    <h3>Array/Object Parameter Passing</h3>
+     <p class="small">References to arrays/objects are passed by value, <b>but</b> the referenced object/array is not copied</p>
+     <div class="flex">
+<pre><code>function tryInc(x) { 
+  x[0]++; 
+  return x[0]; 
+}
+var a = [1];
+console.log(tryInc(a)); // 2
+console.log(a); // [2]</code></pre>
+<pre class="substep"><code>function but(x) { 
+  x = [ x[0]+1 ]; 
+  return x[0]; 
+}
+var a = [1];
+console.log(but(a)); // 2
+console.log(a); // [1]</code></pre>
+</div>
+<div class="flex">
+<p class="small">The content of the array of the global variable <code>a</code> is changed by the function dereferencing <code>x[0]</code></p>
+<p class="small substep">The content of the array <code>a</code> is not changed when the array reference <code>x</code> is re-assigned inside the function</p>
+</section>
+
+
+</section>
 
 
 
