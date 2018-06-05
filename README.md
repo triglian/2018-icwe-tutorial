@@ -10,8 +10,10 @@
  - Windows 10:  https://www.howtogeek.com/249966/how-to-install-and-use-the-linux-bash-shell-on-windows-10/
 * A program that can __zip__ files
 
-# dev.asq.inf.usi.ch Tasks
-Follow the tasks [here](./Tasks-dev.md)
+# Remote server Tasks
 
-# Local Server Tasks
-Follow the tasks [here](./Tasks-local.md)
+[Tasks-dev.md](./Tasks-dev.md)
+
+# Local Server Tasks 
+
+In the case of Internet connectivity issues please find the tasks in [Tasks-local.md](./Tasks-local.md).
