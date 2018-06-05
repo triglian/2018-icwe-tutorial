@@ -1,0 +1,325 @@
+<!doctype html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=1024" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <title>ICWE2018 - ASQ tutorial | Web Mini Lecture</title>
+    
+
+    <script src="/webcomponentsjs/webcomponents-lite.js"></script> 
+    <!-- <script src="http://asq.inf.usi.ch/webcomponentsjs/webcomponents-lite.js"></script>  -->
+    <!-- Use shadow dom -->
+    <script>
+      window.Polymer = window.Polymer || {};
+      window.Polymer.dom = 'shadow';
+    </script>
+    <link rel="import" href="/paper-icon-button/paper-icon-button.html">
+    <link rel="import" href="/asq-elements/asq-elements.html">
+
+    <!-- 
+    <link rel="import" href="http://asq.inf.usi.ch/element-docs/paper-icon-button/paper-icon-button.html">
+    <link rel="import" href="http://asq.inf.usi.ch/element-docs/asq-elements/asq-elements.html">
+    -->
+
+
+    <link rel="stylesheet" href="reveal.js/css/reveal.css">
+    <!-- <link rel="stylesheet" href="reveal.js/css/print/pdf.css"> -->
+    <link rel="stylesheet" href="reveal.js/css/theme/asq.css" id="theme">
+
+    <!-- Code syntax highlighting -->
+    <link rel="stylesheet" href="reveal.js/lib/css/zenburn.css">   
+
+    <link rel="import" href="shared-styles.html">
+    <style is="custom-style" include="shared-styles"></style> 
+
+  </head>
+
+  <body data-asq-role="viewer">
+    <asq-settings max-num-submissions="-1" slideflow="ctrl" assessment="none"></asq-settings>
+
+    <img id="icwe-logo" src="img/logo-icwe.png" alt="ICWE 2018 logo" style="width: 100px;">
+
+    <a id="asq-logo-fixed" href="http://asq.inf.usi.ch/" target="_blank">
+      <img  src="img/ASQLogoBlack.png" alt="ASQ logo" style="width: 100px;">
+    </a>
+      
+
+
+    <div class="reveal">
+
+      <div id="joinasqmsg">Join: <a class="bold" href="http://bit.do/icwe18">http://bit.do/icwe18</a></div>
+
+      <!-- Any section element inside of this container is displayed as a slide -->
+
+      <div class="slides">
+        <section id="splash">
+
+          <div class="asq-logo">
+            <img class="anim a" src="svg/a.svg">
+            <img class="anim backfacing a" src="svg/a.svg">
+            <img class="anim s" src="svg/s.svg">
+            <img class="anim backfacing s" src="svg/s.svg">
+            <img class="anim q" src="svg/q.svg">
+            <img class="anim backfacing q" src="svg/q.svg">
+          </div>
+
+          <h2 id="presentationTitle" class="pastel-blue">Web Mini Lecture</h2>
+          <asq-welcome join-message="Join: http://bit.do/icwe18"></asq-welcome>
+        </section>
+        
+       <section id="meta">
+            <h1>Outline</h1>
+            <p>Interactive CSS</p>
+    <p>CSS Flexbox</p>
+    <p>JavaScript functions</p>
+       </section>
+
+
+<section id="css-main">
+
+  <section id="asq-fiddle1">
+
+<asq-exercise>
+  <asq-fiddle-q editor-font-size="0.5em" contenteditable>
+      <asq-stem>Make the input react to the mouse and smoothly grow its size when it gets focus</asq-stem>
+      <template seed>
+        <pre html><input type="text"
+         placeholder="&#x1F50D;"></pre>
+        <pre css>input {
+    font-size: 2em;
+    width: 10em;
+}</pre>
+        <pre js></pre>
+      </template> 
+    </asq-fiddle-q>
+  </asq-exercise>
+
+  </section>
+
+  <section id="pseudo">
+     <h2>CSS Pseudo-Classes</h2>
+  
+  <p class="small">Pseudo-classes are used to apply rules based on the dynamic state of the selected elements</p>
+  
+  <pre><code class="css">a         { text-decoration: underline; }
+a:link    { color: blue; } 
+a:visited { color: purple; }
+a:hover   { text-decoration: none; }
+a:active  { color: red; }</code></pre>
+<p class="small">Change the appearance of a link element</p>
+<div class="substep">
+<pre><code>input:focus   { background-color: yellow; }
+input:checked { font-weight: bold; }
+input:invalid { background-color: red;  }</code></pre>
+<p class="small">Change the appearance of an input element</p></div>
+  </section>
+
+  <section id="transition">
+    <h2>CSS Transitions</h2>
+  <p>Declaratively smooth the transition between changes in the formatting of any page element (no need of JavaScript for animations)</p>
+  <pre style="margin-bottom:50px"><code>#box { 
+  transition-property: background-color, width;
+  transition-delay: 1s;
+}</code></pre>
+
+<div style="width:100%; text-align: center">
+<div class="ts-box">
+  <code>0s</code>
+</div>
+<div class="ts-box" style="-webkit-transition: background-color 2s, width 1s; -moz-transition: background-color 1s;">
+  <code>2s</code>
+</div>
+</div>
+  </section>
+
+  <section id="flexbox">
+
+    <h2>Flexible Layout</h2>
+  <div class="flex-box-container" style="align-items: bottom; background: rgb(0, 67, 148);">
+    <div class="flex-box"><code class="small">1</code></div>
+    <div class="flex-box" style="flex: 2"><code class="small">2</code></div>
+    <div class="flex-box"><code class="small">1</code></div>
+    <div class="flex-box" style="flex: 3"><code class="small">3</code></div>
+    <div class="flex-box"><code class="small">1</code></div>
+  </div>
+  <pre><code style="background: rgb(0, 67, 148); color: white">display: flex</code></pre>
+<p class="small">Apply the flexbox mode to the content.</p>
+<pre><code style="background: rgb(100, 167, 248); color: black">flex: n</code></pre>
+<p class="small">Grow the content proportionally</p>
+<!--<div class="substep">
+<pre><code style="background: rgb(100, 167, 148);">min-width: length</code></pre>
+<p class="small">Also works with unflexible content</p>
+</div>-->
+<p class="ref substep"><a target="_blank" href="http://css-tricks.com/snippets/css/a-guide-to-flexbox/">http://css-tricks.com/snippets/css/a-guide-to-flexbox/</a></p>
+
+  </section>
+
+  <section id="flex-demo">
+
+ <div class="flex-controls">
+  <p class="small">Control the flex box container.</p>
+  <pre><code style="background: rgb(0, 67, 148); color: white">flex-direction: <select onchange="setStyle(this,'flex-direction')">
+    <option value="row">row</option>
+    <option value="row-reverse">row-reverse</option>
+    <option value="column">column</option>
+    <option value="column-reverse">column-reverse</option>
+</select></code></pre>
+<pre><code style="background: rgb(0, 67, 148); color: white">flex-wrap: <select onchange="setStyle(this,'flex-wrap')">
+    <option value="nowrap">nowrap</option>
+    <option value="wrap">wrap</option>   
+    <option value="wrap-reverse">wrap-reverse</option>
+</select></code></pre>
+<pre><code style="background: rgb(0, 67, 148); color: white">justify-content: <select onchange="setStyle(this,'justify-content')">
+    <option value="flex-start">flex-start</option>
+    <option value="flex-end">flex-end</option>
+    <option value="center">center</option>
+    <option value="space-around">space-around</option>
+    <option value="space-between">space-between</option>
+</select></code></pre>
+<pre><code style="background: rgb(0, 67, 148); color: white">align-items: <select onchange="setStyle(this,'align-items')">
+    <option value="stretch">stretch</option>
+    <option value="flex-start">flex-start</option>
+    <option value="flex-end">flex-end</option>
+    <option value="center">center</option>
+    <option value="baseline">baseline</option>
+    
+</select></code></pre>
+<p class="small">Grow the content proportionally</p>
+<pre><code style="background: rgb(100, 167, 248);"><select id="flex-demo-which" onchange="setFlexWhich(this)">
+    <option value="all">all</option>
+    <option value="1">[1]</option>
+    <option value="2">[2]</option>
+    <option value="3">[3]</option>
+    <option value="4">[4]</option>
+    <option value="5">[5]</option>
+    <option value="6">[6]</option>   
+    <option value="odd">[1,3,5]</option>
+    <option value="even">[2,4,6]</option> 
+</select> flex-grow: <select onchange="setFlex(this,'flex-grow')">
+    <option value="0">0</option>
+    <option value="1">1</option>
+    <option value="2">2</option> 
+    <option value="3">3</option> 
+    <option value="4">4</option>    
+</select></code></pre>
+</div>
+<h2>Flexbox demo</h2>
+<div class="flex-box-container">
+    <div class="flex-box-demo"><code class="small">1</code></div>
+    <div class="flex-box-demo"><code class="small">2</code></div>
+    <div class="flex-box-demo"><code class="small">3</code></div>
+    <div class="flex-box-demo"><code class="small">4</code></div>
+    <div class="flex-box-demo"><code class="small">5</code></div>
+    <div class="flex-box-demo"><code class="small">6</code></div>
+  </div>
+
+
+
+<script>function setStyle(e,s) {
+   document.querySelectorAll('#flex-demo .flex-box-container')[0].style[s] = e.value;
+}function setFlex(e,s) { 
+  var which = document.getElementById('flex-demo-which').value;
+  if (which == 'all') {
+   document.querySelectorAll('#flex-demo .flex-box-demo').forEach(function(i){i.style[s] = e.value; });
+  } else {
+   document.querySelectorAll('#flex-demo .flex-box-demo:nth-child('+which+')').forEach(function(i){i.style[s] = e.value; });
+  }
+}function setFlexWhich(e) { 
+   document.querySelectorAll('#flex-demo .flex-box-demo').forEach(function(i){i.style.backgroundColor = 'rgb(100, 167, 248)'; });
+   if (e.value != 'all') {
+     document.querySelectorAll('#flex-demo .flex-box-demo:nth-child('+e.value+')').forEach(function(i){i.style.backgroundColor = 'red'; });
+   } 
+}</script>
+
+
+  </section>
+
+  <section id="asq-fiddle2">
+
+<asq-exercise>
+  <asq-fiddle-q editor-font-size="0.5em" contenteditable>
+      <asq-stem>Make the input react to the mouse and smoothly grow its size when it gets focus</asq-stem>
+      <template seed>
+        <pre html><input type="text"
+         placeholder="&#x1F50D;"></pre>
+        <pre css>input {
+    font-size: 2em;
+    width: 10em;
+}</pre>
+        <pre js></pre>
+      </template> 
+    </asq-fiddle-q>
+  </asq-exercise>
+
+  </section>
+
+</section>
+
+
+
+
+
+      </div>
+    </div>
+    <script src="reveal.js/lib/js/head.min.js"></script>
+    <script src="reveal.js/js/reveal.js"></script>
+    <script type="text/javascript">
+
+// cache question-type-name-label
+var questionTypeNameLabelEl = document.getElementById('question-type-name-label');
+
+document.getElementById('many-question-types').addEventListener('mouseover', function(evt){
+  if(evt.target.classList.contains('img-frame')){
+    questionTypeNameLabelEl.textContent = evt.target.dataset.questionName;
+  }else if(evt.target.classList.contains('img-frame-link')){
+     questionTypeNameLabelEl.textContent = evt.target.parentNode.dataset.questionName;
+  }else{
+    questionTypeNameLabelEl.textContent = document.getElementById('img-message').dataset.questionName;
+  }
+});
+
+Reveal.addEventListener( 'ready', function( event ) {
+  document.body.classList.add("on-"+event.currentSlide.id);
+});
+
+Reveal.addEventListener( 'slidechanged', function( event ) {
+  document.body.classList.remove("on-"+event.previousSlide.id);
+  document.body.classList.add("on-"+event.currentSlide.id);
+});
+
+Reveal.addEventListener( 'slidechanged', function( event ) {
+  handleSlideChange(event.currentSlide.id)
+});
+
+Reveal.addEventListener("fragmentshown", function(evt){
+  if(! evt.fragment) return;
+
+  // question types
+  if(evt.fragment.classList.contains('img-frame')){
+    questionTypeNameLabelEl.textContent = evt.fragment.dataset.questionName;
+  }
+});
+    </script>
+    <script>
+      setTimeout(function(){
+        try{
+          document.querySelector("#asq-fiddle1 asq-fiddle-q").selectedPanes = ["css", "result"];
+          document.querySelector("#asq-fiddle2 asq-fiddle-q").selectedPanes = ["css", "result"];
+
+          Reveal.initialize({
+            dependencies:[
+              { src: 'reveal.js/plugin/notes/notes.js', async: true },
+            ],
+            pdfMaxPagesPerSlide: 1,
+            history: true,
+            loop: true,
+          });
+        }catch(err){
+          console.log(err)
+        }
+      }, 500)
+    </script>
+  </body>
+</html>
