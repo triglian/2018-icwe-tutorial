@@ -1,0 +1,338 @@
+<!doctype html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=1024" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <title>ICWE2018 - ASQ tutorial | Question Asking Strategies</title>
+    
+
+    <script src="/webcomponentsjs/webcomponents-lite.js"></script> 
+    <!-- <script src="http://asq.inf.usi.ch/webcomponentsjs/webcomponents-lite.js"></script>  -->
+    <!-- Use shadow dom -->
+    <script>
+      window.Polymer = window.Polymer || {};
+      window.Polymer.dom = 'shadow';
+    </script>
+    <link rel="import" href="/paper-icon-button/paper-icon-button.html">
+    <link rel="import" href="/asq-elements/asq-elements.html">
+
+    <!-- 
+    <link rel="import" href="http://asq.inf.usi.ch/element-docs/paper-icon-button/paper-icon-button.html">
+    <link rel="import" href="http://asq.inf.usi.ch/element-docs/asq-elements/asq-elements.html">
+    -->
+
+
+    <link rel="stylesheet" href="reveal.js/css/reveal.css">
+    <!-- <link rel="stylesheet" href="reveal.js/css/print/pdf.css"> -->
+    <link rel="stylesheet" href="reveal.js/css/theme/asq.css" id="theme">
+
+    <!-- Code syntax highlighting -->
+    <link rel="stylesheet" href="reveal.js/lib/css/zenburn.css">   
+
+    <link rel="import" href="shared-styles.html">
+    <style is="custom-style" include="shared-styles"></style> 
+
+  </head>
+
+  <body data-asq-role="viewer">
+    <asq-settings max-num-submissions="-1" slideflow="ctrl" assessment="none"></asq-settings>
+
+    <img id="icwe-logo" src="img/logo-icwe.png" alt="ICWE 2018 logo" style="width: 100px;">
+
+    <a id="asq-logo-fixed" href="http://asq.inf.usi.ch/" target="_blank">
+      <img  src="img/ASQLogoBlack.png" alt="ASQ logo" style="width: 100px;">
+    </a>
+      
+
+
+    <div class="reveal">
+
+      <div id="joinasqmsg">Join us at <a class="bold" href="https://goo.gl/9LXiQZ">https://goo.gl/9LXiQZ</a></div>
+
+      <!-- Any section element inside of this container is displayed as a slide -->
+
+      <div class="slides">
+        <section id="splash">
+
+          <div class="asq-logo">
+            <img class="anim a" src="svg/a.svg">
+            <img class="anim backfacing a" src="svg/a.svg">
+            <img class="anim s" src="svg/s.svg">
+            <img class="anim backfacing s" src="svg/s.svg">
+            <img class="anim q" src="svg/q.svg">
+            <img class="anim backfacing q" src="svg/q.svg">
+          </div>
+
+          <h2 id="presentationTitle" class="pastel-blue">Asking questions: when, what, how, why?</h2>
+          <asq-welcome join-message="Join us at https://goo.gl/9LXiQZ"></asq-welcome>
+        </section>
+        
+       <section id="meta">
+            <h1>Questions about questions</h1>
+    <p>When to ask questions to the students?</p>
+    <p>What type of question to ask?</p>
+    <p>How to ask questions?</p>
+    <p>Why ask questions?</p>
+    <p class="fragment">Why answer questions?</p>
+       </section>
+
+<section>
+
+       <section>
+        <asq-exercise>
+           <asq-text-input-q label="log" id="tbq-1">
+            <asq-stem>When to ask questions?</asq-stem>
+            <asq-solution hidden></asq-solution>
+          </asq-text-input-q>
+       </asq-exercise>
+
+<asq-text-input-q-stats for="tbq-1" show-viewer="all">
+</asq-text-input-q-stats>
+       </section>
+
+       <section>
+        <h1>When to ask questions?</h1>
+    <ul><li class="fragment">Right <b>after the explanation</b> (short-term recall, early feedback, adapt/re-explain)</li>
+        <li class="fragment"><b>Before the explanation</b> (test previous knowledge, motivate the students to listen to the explanation)</li>
+        <li class="fragment">At the <b>beginning</b> of the lecture (warm up, long-term recall, survey the audience)</li>
+        <li class="fragment">Before the <b>break</b> (reduce boredom for fast students, more time to answer and process the answers, discuss solutions after the break is over)</li>
+        <li class="fragment"><b>End</b> of the lecture (medium-term recall, summarize, introduce homework, cliffhanger for next lecture)</li></ul>
+       </section>
+
+
+<section>
+    <h1>Timing the question</h1>
+    <ul>
+        <li class="fragment" class="fragment">How long to wait before giving some hints?</li>
+        <li class="fragment" class="fragment">How long to wait before showing the student answers?</li>
+        <li class="fragment" class="fragment">How long to wait before discussing student answers?</li>
+        <li class="fragment" class="fragment">When to reveal the right answer?</li>
+    </ul>
+</section>
+
+
+</section>
+
+<section>
+
+<section>
+  <asq-exercise>
+<asq-buckets-q
+    class="small"
+    mode="1-6" 
+    x-matchable="div[buckets]" 
+    y-matchable="div[labels]" 
+    attr-for-matched="s-name"
+    matched-attribute="matched"
+    label-container="[labels]"
+    matched-class="label-success">
+
+    <asq-stem></asq-stem>
+
+      <div buckets>
+        <div s-name="nds" class="bucket">Recognition</div>
+        <div s-name="p1" class="bucket">Cued Recall</div>
+        <div s-name="a2" class="bucket">Free Recall</div>
+      </div>
+      
+      <div labels>
+        <div s-name="a" label class="label label-primary">problem solving</div>
+        <div s-name="r1" label class="label label-primary">true/false</div>
+        <div s-name="a2" label class="label label-primary">short answer</div>
+        <div s-name="a1" label class="label label-primary">multiple choice</div>
+        <div s-name="p2" label class="label label-primary">fill-in blanks</div>
+        <div s-name="d" label class="label label-primary">active learning</div>
+      </div>
+
+      <div style="clear:both; float:none;"></div>
+
+  </asq-buckets-q></asq-exercise>
+
+  </section>
+
+<section>
+    <h1>Retrieval Effort</h1>
+    <ol><li>Recognition (true/false, multiple choice)</li>
+        <li class="fragment">Cued Recall (short answer, fill blanks)</li>
+        <li class="fragment">Free Recall (active learning)</li>
+        </ol>
+        <p class="fragment">The more effort, the better the retention</p>
+</section>  
+
+</section>
+
+<section>
+
+<section>
+        <asq-exercise>
+           <asq-text-input-q label="log" id="tbq-2" contenteditable>
+            <asq-stem class="small">What type of questions to ask?</asq-stem>
+            <asq-solution hidden></asq-solution>
+          </asq-text-input-q>
+       </asq-exercise>
+
+<asq-text-input-q-stats for="tbq-2" show-viewer="all">
+</asq-text-input-q-stats>
+</section>
+
+<section>
+    <h1>Short-answer Questions</h1>
+    <ol><li>Yes/No? Right/Wrong? (Verification)</li>
+        <li>A/B? (Disjunction)</li>
+        <li class="fragment">How Many? (Quantification)</li>
+        <li class="fragment">Who? What? (Concept completion)</li></ol>
+</section>
+
+<section id="q-long">
+    <h1>Long-answer Questions</h1>
+    <ol><li>What does it mean? (Definition)</li>
+        <li>How does this compares to that? (Comparison)</li>
+        <li>Is it good or bad? (Judgment)</li>
+        <li>What was the cause? (Antecedent)</li>
+        <li>What if? (Consequence)</li>
+        <li>What for? (Goal orientation)</li><li>How does it work? (Instrumental/Procedural)</li>
+        <li>Which is similar to which? (Classification)</li>
+        <li>What makes it possible? (Enablement)</li>
+        <li>Why? (Explanation)</li>
+        <li>Why not? (Expectational)</li></ol>
+</section>
+
+<section>
+    <h1>Open-ended Questions</h1>
+    <ol>
+        <li>Can you give an example of it? (Exemplification)</li>
+        <li>Which ways? (Enumeration)</li>
+        <li>What happened? (Interpretation)</li><li>What is more/less important? (Prioritization)</li>
+        <li>Which decision would you take? (Design)</li>
+        <li>Can it be done? (Feasibility)</li><li>How to do it? (Problem Solving)</li>
+        <li>What would you say? (Brainstorming)</li>
+        <li>What is wrong with this? (Critique)</li>
+        </ol>
+</section>
+
+</section>
+
+<section>
+
+<section>
+        <asq-exercise>
+           <asq-text-input-q label="log" id="tbq-5">
+            <asq-stem class="small">Why ask questions?</asq-stem>
+            <asq-solution hidden></asq-solution>
+          </asq-text-input-q>
+       </asq-exercise>
+
+<asq-text-input-q-stats for="tbq-5" show-viewer="all">
+</asq-text-input-q-stats>
+</section>
+
+<section>
+    <h1>Why ask Questions?</h1>
+    <p><b>Students</b></p>
+    <ul><li>Engage/interact with the taught material to find an answer (active learning)</li>
+    </ul>
+    <p class="fragment"><b>Professors</b></p>
+    <ul><li class="fragment">Gain awareness about the understanding of the whole class</li><li class="fragment">Give feedback to the whole class</li>
+        <li class="fragment">Discover misconceptions</li>
+        <li class="fragment">Diagnose and repair knowledge deficits</li>
+        <li class="fragment">Give students something to do while you take a short break</li>
+    </ul>
+</section>
+
+<section>
+        <asq-exercise>
+           <asq-text-input-q label="log" id="tbq-6">
+            <asq-stem class="small">Why answer questions?</asq-stem>
+            <asq-solution hidden></asq-solution>
+          </asq-text-input-q>
+       </asq-exercise>
+
+<asq-text-input-q-stats for="tbq-6" show-viewer="all">
+</asq-text-input-q-stats>
+</section>
+
+<section>
+    <h1>Why answer Questions?</h1>
+    <p><b>Students</b></p>
+    <ul><li>Get immediate feedback</li>
+        <li>Take up the challenge</li>
+        <li>Share knowledge</li>
+        <li>Contribute to the discussion</li>
+        <li>Compare solutions</li>
+        <li>Leave your mark on the beamer</li>
+        <li>Get a reward (external motivation)</li>
+    </ul>
+</section>
+
+</section>
+
+<section>
+    <h2>References</h2><ul class="small"><li>Arthur C. Graesser and Natalie K. Person, <b>Question Asking During Tutoring</b>, American Educational Research Journal, Spring 1994, Vol.31, No. I, pp. 104-137</li>
+</ul>
+</div>
+
+
+
+
+
+      </div>
+    </div>
+    <script src="reveal.js/lib/js/head.min.js"></script>
+    <script src="reveal.js/js/reveal.js"></script>
+    <script type="text/javascript">
+
+// cache question-type-name-label
+var questionTypeNameLabelEl = document.getElementById('question-type-name-label');
+
+document.getElementById('many-question-types').addEventListener('mouseover', function(evt){
+  if(evt.target.classList.contains('img-frame')){
+    questionTypeNameLabelEl.textContent = evt.target.dataset.questionName;
+  }else if(evt.target.classList.contains('img-frame-link')){
+     questionTypeNameLabelEl.textContent = evt.target.parentNode.dataset.questionName;
+  }else{
+    questionTypeNameLabelEl.textContent = document.getElementById('img-message').dataset.questionName;
+  }
+});
+
+Reveal.addEventListener( 'ready', function( event ) {
+  document.body.classList.add("on-"+event.currentSlide.id);
+});
+
+Reveal.addEventListener( 'slidechanged', function( event ) {
+  document.body.classList.remove("on-"+event.previousSlide.id);
+  document.body.classList.add("on-"+event.currentSlide.id);
+});
+
+Reveal.addEventListener( 'slidechanged', function( event ) {
+  handleSlideChange(event.currentSlide.id)
+});
+
+Reveal.addEventListener("fragmentshown", function(evt){
+  if(! evt.fragment) return;
+
+  // question types
+  if(evt.fragment.classList.contains('img-frame')){
+    questionTypeNameLabelEl.textContent = evt.fragment.dataset.questionName;
+  }
+});
+    </script>
+    <script>
+      setTimeout(function(){
+        try{
+          Reveal.initialize({
+            dependencies:[
+              { src: 'reveal.js/plugin/notes/notes.js', async: true },
+            ],
+            pdfMaxPagesPerSlide: 1,
+            history: true,
+            loop: true,
+          });
+        }catch(err){
+          console.log(err)
+        }
+      }, 500)
+    </script>
+  </body>
+</html>
