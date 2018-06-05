@@ -8,20 +8,20 @@
     <title>ICWE2018 - ASQ tutorial | Web Mini Lecture</title>
     
 
-    <script src="/webcomponentsjs/webcomponents-lite.js"></script> 
-    <!-- <script src="http://asq.inf.usi.ch/webcomponentsjs/webcomponents-lite.js"></script>  -->
+    <!-- <script src="/webcomponentsjs/webcomponents-lite.js"></script>  -->
+    <script src="http://asq.inf.usi.ch/element-docs/webcomponentsjs/webcomponents-lite.js"></script> 
     <!-- Use shadow dom -->
     <script>
       window.Polymer = window.Polymer || {};
       window.Polymer.dom = 'shadow';
     </script>
-    <link rel="import" href="/paper-icon-button/paper-icon-button.html">
-    <link rel="import" href="/asq-elements/asq-elements.html">
+<!--     <link rel="import" href="/paper-icon-button/paper-icon-button.html">
+    <link rel="import" href="/asq-elements/asq-elements.html"> -->
 
-    <!-- 
+    
     <link rel="import" href="http://asq.inf.usi.ch/element-docs/paper-icon-button/paper-icon-button.html">
     <link rel="import" href="http://asq.inf.usi.ch/element-docs/asq-elements/asq-elements.html">
-    -->
+   
 
 
     <link rel="stylesheet" href="reveal.js/css/reveal.css">
@@ -267,46 +267,71 @@ input:invalid { background-color: red;  }</code></pre>
     <script src="reveal.js/js/reveal.js"></script>
     <script type="text/javascript">
 
-// cache question-type-name-label
-var questionTypeNameLabelEl = document.getElementById('question-type-name-label');
+function override(object, prop, replacer) { 
+    var old = object[prop]; object[prop] = replacer(old);
+}
+function getZoom(element) {
+   if (!element) return 1;
+   return window.getComputedStyle(element).zoom * getZoom(element.parentElement);
+}
 
-document.getElementById('many-question-types').addEventListener('mouseover', function(evt){
-  if(evt.target.classList.contains('img-frame')){
-    questionTypeNameLabelEl.textContent = evt.target.dataset.questionName;
-  }else if(evt.target.classList.contains('img-frame-link')){
-     questionTypeNameLabelEl.textContent = evt.target.parentNode.dataset.questionName;
-  }else{
-    questionTypeNameLabelEl.textContent = document.getElementById('img-message').dataset.questionName;
-  }
-});
+
+function resizeAceEditors(){
+  if(!Polymer || typeof Polymer !== 'function') return;
+
+  var els = document.querySelectorAll('asq-fiddle-q');
+  [].forEach.call(els, function(el){
+    var roleEl = Polymer.dom(el.root).querySelector('asq-fiddle-q-' + el.role);
+    if(!roleEl) return;
+
+    var editors = ['html', 'js', 'css'];
+    editors.forEach(function(editorId){
+
+      override(roleEl.$[editorId].editor.renderer, "screenToTextCoordinates", function(old) {
+          return function(x, y) {
+              var zoom = getZoom(el);
+              return old.call(this, x/zoom, y/zoom)
+          }
+      })
+    })
+  })
+
+  var els = document.querySelectorAll('asq-highlight-q');
+  [].forEach.call(els, function(el){
+    var roleEl = Polymer.dom(el.root).querySelector('asq-highlight-q-' + el.role);
+    if(!roleEl) return;
+
+    override(roleEl.codeEditor.editor.renderer, "screenToTextCoordinates", function(old) {
+        return function(x, y) {
+            var zoom = getZoom(el);
+            return old.call(this, x/zoom, y/zoom)
+        }
+    })
+  })
+}
+      
 
 Reveal.addEventListener( 'ready', function( event ) {
   document.body.classList.add("on-"+event.currentSlide.id);
+  resizeAceEditors();
 });
 
 Reveal.addEventListener( 'slidechanged', function( event ) {
-  document.body.classList.remove("on-"+event.previousSlide.id);
+  if(event.previousSlide){
+    document.body.classList.remove("on-"+event.previousSlide.id);
+  }
   document.body.classList.add("on-"+event.currentSlide.id);
 });
 
-Reveal.addEventListener( 'slidechanged', function( event ) {
-  handleSlideChange(event.currentSlide.id)
-});
-
-Reveal.addEventListener("fragmentshown", function(evt){
-  if(! evt.fragment) return;
-
-  // question types
-  if(evt.fragment.classList.contains('img-frame')){
-    questionTypeNameLabelEl.textContent = evt.fragment.dataset.questionName;
-  }
-});
     </script>
     <script>
+
       setTimeout(function(){
         try{
           document.querySelector("#asq-fiddle1 asq-fiddle-q").selectedPanes = ["css", "result"];
           document.querySelector("#asq-fiddle2 asq-fiddle-q").selectedPanes = ["css", "result"];
+
+          
 
           Reveal.initialize({
             dependencies:[
