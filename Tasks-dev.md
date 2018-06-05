@@ -47,6 +47,7 @@ Sometimes it's convenient to display statistics about a question type in a seper
 1. Go to the [uploads](https://dev.asq.inf.usi.ch/upload/) page.
 1. Drag and drop the zip file.
 1. Give a name to your presentation.
+1. Select "reveal.js" from the dropdown to specify the presentation type.
 1. Click Upload.
 
 ## Task 7 - Experiment with other ASQ question types
