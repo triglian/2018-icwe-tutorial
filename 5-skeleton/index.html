@@ -170,6 +170,7 @@
     </div>
     <script src="reveal.js/lib/js/head.min.js"></script>
     <script src="reveal.js/js/reveal.js"></script>
+    <script src="js/asq-utils.js"></script>
     <script type="text/javascript">
 
 // cache question-type-name-label
@@ -185,8 +186,13 @@ document.getElementById('many-question-types').addEventListener('mouseover', fun
   }
 });
 
+window.addEventListener('resize', function(){
+  setTimeout(resizeAceEditors, 50);
+});
+
 Reveal.addEventListener( 'ready', function( event ) {
   document.body.classList.add("on-"+event.currentSlide.id);
+  resizeAceEditors();
 });
 
 Reveal.addEventListener( 'slidechanged', function( event ) {
