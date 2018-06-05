@@ -8,19 +8,19 @@
     <title>ICWE2018 - ASQ tutorial | Web Mini Lecture</title>
     
 
-    <!-- <script src="/webcomponentsjs/webcomponents-lite.js"></script>  -->
-    <script src="http://asq.inf.usi.ch/element-docs/webcomponentsjs/webcomponents-lite.js"></script> 
+    <script src="/webcomponentsjs/webcomponents-lite.js"></script> 
+<!--     <script src="http://asq.inf.usi.ch/element-docs/webcomponentsjs/webcomponents-lite.js"></script>  -->
     <!-- Use shadow dom -->
     <script>
       window.Polymer = window.Polymer || {};
       window.Polymer.dom = 'shadow';
     </script>
-<!--     <link rel="import" href="/paper-icon-button/paper-icon-button.html">
-    <link rel="import" href="/asq-elements/asq-elements.html"> -->
+    <link rel="import" href="/paper-icon-button/paper-icon-button.html">
+    <link rel="import" href="/asq-elements/asq-elements.html">
 
     
-    <link rel="import" href="http://asq.inf.usi.ch/element-docs/paper-icon-button/paper-icon-button.html">
-    <link rel="import" href="http://asq.inf.usi.ch/element-docs/asq-elements/asq-elements.html">
+<!--     <link rel="import" href="http://asq.inf.usi.ch/element-docs/paper-icon-button/paper-icon-button.html">
+    <link rel="import" href="http://asq.inf.usi.ch/element-docs/asq-elements/asq-elements.html"> -->
    
 
 
@@ -270,7 +270,7 @@ main {background: red;}
 <section id="js-fn">
 
       <asq-exercise>
-        <asq-js-function-body-q function-name="min(a,b)" test-exp="min(10,1);">
+        <asq-js-function-body-q function-name="min(a,b)" test-exp="min(10,1);" contenteditable>
             <asq-stem>Implement a function that returns the minimum value of its two parameters:</asq-stem>
         </asq-js-function-body-q>
     </asq-exercise>
@@ -298,7 +298,7 @@ function name(parameters) {
 <section id="asq-js">
 
 <asq-exercise>
-        <asq-highlight-q theme="" mode="javascript" font-size="0.5em">
+        <asq-highlight-q theme="" mode="javascript" font-size="0.5em" contenteditable>
             <asq-solution>{ "428bca": [ { "start": { "row": 0, "column": 4 }, "end": { "row": 0, "column": 5 }, "id": 64 }, { "start": { "row": 5, "column": 2 }, "end": { "row": 5, "column": 3 }, "id": 68 } ], "d9534f": [ { "start": { "row": 4, "column": 6 }, "end": { "row": 4, "column": 7 }, "id": 72 } ] }
             </asq-solution>
             <asq-stem>What is the Scope of the variables?</asq-stem>
@@ -325,7 +325,7 @@ function tryInc(x) {
   x++; 
   return x; 
 }
-">
+" contenteditable>
             <asq-stem>Parameter Passing: By Value</asq-stem>
           </asq-js-eval-q>
 </section>
@@ -336,7 +336,7 @@ function tryInc(x) {
   x[0]++; 
   return x[0]; 
 }
-">
+" contenteditable>
             <asq-stem>Array Parameter Passing: By Value or Reference?</asq-stem>
           </asq-js-eval-q>
 </section>
