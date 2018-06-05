@@ -29,4 +29,72 @@ body.impress-on-title #welcome {display: none;}
 
 #asq-fiddle1, #asq-fiddle2 {width: 95vw;}
 
+ asq-highlight-q {height: 80vh;}
+
+.ts-box { height:100px; width:5em; border: #000 solid 2px; background-color: rgb(0, 67, 148); display: inline-block; margin-right:50px; }
+
+.ts-box:hover { background-color: #f00; width:10em; }
+
+   .flex-box-container {
+  width:30%; height:5.5em; float: right; background: rgb(0, 67, 148); border: rgb(0, 67, 148) solid 5px; display: flex;
+}
+
+asq-fiddle-q {min-height: 640px;}
+
+div.flex {display: flex; flex-direction: row}
+
+#flex-demo .flex-controls {margin-right: 1em; float: left;}
+#flex-demo select {font-family: "Fira Mono"; font-size: 1em;}
+#flex-demo .flex-box-container {padding-bottom: 0.5em; margin-left: 1em; max-width: 50vw; max-height: 20vw; float: none; width: 20em; height: 10em; resize:both; overflow: auto;}
+#flex-demo .flex-box-demo { border: #fff solid 2px; color: #fff; margin-right: 2px; margin-top:0.5em;
+  text-align: center; background: rgb(100, 167, 248); min-height: 100px; min-width: 100px;}
+#flex-demo {width: 100vw;}
+
+.flex-box { height:200px; width:100px; border: #fff solid 2px; color: #fff; margin-right: 2px; margin-top:0.5em;
+  flex:1; text-align: center; background: rgb(100, 167, 248);
+}
+
+#flexbox .flex-box {height: 100px; border: #fff solid 2px; margin-right: 2px;}
+
+#flexbox .flex-box-container {padding: 1em; height: 4em; align-items: flex-end;}
+#flexbox code.small {color: black; font-weight: bold}
+
+#flexbox pre {box-shadow: none; }
+#flexbox code {border-radius: 0;}
+
+#flex .string {color: rgb(200,255,200); text-shadow: 0 0 2px black;}
+
+    li:hover {font-weight: bold}
+
+    asq-text-input-q-stats {
+      min-height: 5em;
+    }
+
+    asq-stem {
+      font-size: 1.5em;
+    }
+
+    asq-option {
+      display: block;
+    }
+
+    .asq-selected {
+      background-color: #CFD8DC;
+    }
+
+    #splash asq-welcome{
+      --asq-welcome-join-url:{
+        font-weight: bold;
+        color: rgb(89, 118, 182);
+        display: none; /*to hide the link*/
+      };
+    }
+
+    asq-exercise{
+      --paper-button:{
+        font-size: 0.7em;
+      };
+    }
+
+
 }
