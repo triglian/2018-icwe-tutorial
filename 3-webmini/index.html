@@ -109,7 +109,7 @@ a:visited { color: purple; }
 a:hover   { text-decoration: none; }
 a:active  { color: red; }</code></pre>
 <p class="small">Change the appearance of a link element</p>
-<div class="substep">
+<div class="fragment">
 <pre><code>input:focus   { background-color: yellow; }
 input:checked { font-weight: bold; }
 input:invalid { background-color: red;  }</code></pre>
@@ -148,11 +148,11 @@ input:invalid { background-color: red;  }</code></pre>
 <p class="small">Apply the flexbox mode to the content.</p>
 <pre><code style="background: rgb(100, 167, 248); color: black">flex: n</code></pre>
 <p class="small">Grow the content proportionally</p>
-<!--<div class="substep">
+<!--<div class="fragment">
 <pre><code style="background: rgb(100, 167, 148);">min-width: length</code></pre>
 <p class="small">Also works with unflexible content</p>
 </div>-->
-<p class="ref substep"><a target="_blank" href="http://css-tricks.com/snippets/css/a-guide-to-flexbox/">http://css-tricks.com/snippets/css/a-guide-to-flexbox/</a></p>
+<p class="ref fragment"><a target="_blank" href="http://css-tricks.com/snippets/css/a-guide-to-flexbox/">http://css-tricks.com/snippets/css/a-guide-to-flexbox/</a></p>
 
   </section>
 
@@ -280,17 +280,16 @@ main {background: red;}
 <section id="js-var">
 
     <h2>Variables</h2>
-    <pre><code><b>var</b> g = 42; //global variable
+    <pre><code>var g = 42; //global variable
 
 function name(parameters) { 
-  <b>var</b> x; //local variable (function scope)
+  var x; //local variable (function scope)
 
-<div class="substep">  if (parameters) {
-    <b>let</b> y = 2; //local variable (block scope)
-  }</div>
-<div class="substep">  <b>const</b> c = "Constant"; //(block scope)
-</div>
-  return;
+  if (parameters) {
+     let y = 2; //local variable (block scope)
+  }
+  const c = "Constant"; //(block scope)
+  return c;
 }</code></pre>
 
 </section>
@@ -352,7 +351,7 @@ function tryInc(x) {
 var a = [1];
 console.log(tryInc(a)); // 2
 console.log(a); // [2]</code></pre>
-<pre class="substep"><code>function but(x) { 
+<pre class="fragment"><code>function but(x) { 
   x = [ x[0]+1 ]; 
   return x[0]; 
 }
@@ -362,7 +361,7 @@ console.log(a); // [1]</code></pre>
 </div>
 <div class="flex">
 <p class="small">The content of the array of the global variable <code>a</code> is changed by the function dereferencing <code>x[0]</code></p>
-<p class="small substep">The content of the array <code>a</code> is not changed when the array reference <code>x</code> is re-assigned inside the function</p>
+<p class="small fragment">The content of the array <code>a</code> is not changed when the array reference <code>x</code> is re-assigned inside the function</p>
 </section>
 
 
