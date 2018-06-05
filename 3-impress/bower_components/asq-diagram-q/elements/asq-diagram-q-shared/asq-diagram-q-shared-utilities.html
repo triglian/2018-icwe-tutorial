@@ -1,0 +1,1839 @@
+<script type="text/javascript" src="../../../jquery/dist/jquery.min.js"></script>
+<script type="text/javascript" src="../../../lodash/lodash.js"></script>
+<script type="text/javascript" src="../../../backbone/backbone.js"></script>
+<script type="text/javascript" src="../../../jointjs/dist/joint.js"></script>
+<script type="text/javascript" src="./bpmn_shapes.js"></script>
+<script>
+
+  var ASQ = window.ASQ || {};
+
+  var diagramQGlobalBehaviour = ASQ.diagramQGlobalBehaviour = {
+
+    properties: {
+
+      /**
+       * Name of 'this' element
+       * @type {String}
+       */
+      name: {
+        type: String,
+        notify: true,
+        reflectToAttribute: true
+      },
+
+      /**
+       * Type of diagram, options are:  1) 'uml', 2) 'erd' or 3) 'bpmn'
+       * default is 'uml'
+       * * @type {String}
+       */
+      type: {
+        type: String,
+        notify: true,
+        reflectToAttribute: true,
+      },
+
+      /**
+       * width in pixels of the diagram UI
+       * @type {Number}
+       */
+      width: {
+        type: Number,
+        value: 500,
+        notify: true,
+        reflectToAttribute: true
+      },
+
+      /**
+       * height in pixels of the diagram UI
+       * @type {Number}
+       */
+      height: {
+        type: Number,
+        value: 500,
+        notify: true,
+        reflectToAttribute: true
+      },
+
+      /**
+       * Disable or enable the element.
+       * @type {Boolean}
+       */
+      disabled: {
+        type: Boolean,
+        value: false,
+        notify: true,
+        reflectToAttribute: true,
+      },
+
+      /**
+       * If true links can be pinned to the paper.
+       * @type {Boolean}
+       */
+      linkPinning : {
+        type: Boolean,
+        value: false,
+        notify: true,
+        reflectToAttribute: true
+      }
+
+    },
+
+    _isDiagramType: function (type, thisType) {
+      return type === thisType;
+    },
+
+    _inc: function(index){
+      return ++index;
+    },
+  };
+
+  var diagramQCommonUIBehaviour = ASQ.diagramQCommonUIBehaviour = {
+
+    properties: {
+
+      /**
+       * The graph object
+       * @type {Object}
+       */
+      _graph: {
+        type: Object,
+        notify: true,
+        reflectToAttribute: true
+      },
+
+      /**
+       * The paper object
+       * @type {Object}
+       */
+      _paper: {
+        type: Object,
+        notify: true,
+        reflectToAttribute: true
+      },
+
+      /**
+       * The uml object
+       * @type {Object}
+       */
+      _shapes: {
+        type: Object,
+        notify: true,
+        reflectToAttribute: true
+      },
+
+      /**
+       * Obj containing subtypes for every supported type
+       * @type {Object}
+       */
+      _shapesDict: {
+        type: Object,
+        notify: true,
+        reflectToAttribute: true
+      },
+
+      /**
+       * Object containing all created states
+       * @type {Object}
+       */
+      _states: {
+        type: Object,
+        notify: true,
+        reflectToAttribute: true
+      },
+
+      /**
+       * Object containing all created relations
+       * @type {Object}
+       */
+      _relations: {
+        type: Object,
+        notify: true,
+        reflectToAttribute: true
+      },
+
+      /**
+       * The selected state/relation
+       *  @type {Object}
+       */
+      selected: {
+        type: Object,
+        value: null,
+        notify: true,
+        reflectToAttribute: true
+      },
+
+      /**
+       * The selected state/relation copy for undo operation
+       * @type {Object}
+       */
+      selectedCopy: {
+        type: Object,
+        value: null,
+        notify: true,
+        reflectToAttribute: true
+      },
+
+      /**
+       * The selected state
+       * @type {Boolean}
+       */
+      multiModeEnabled: {
+        type: Boolean,
+        value: false,
+        notify: true,
+        reflectToAttribute: true
+      },
+
+      /**
+       * Array of selected cells
+       * @type {Array}
+       */
+      selectedElements: {
+        type: Array,
+        value: [],
+        notify: true,
+        reflectToAttribute: true
+      },
+
+      /**
+       * True is multiple elements are selected
+       *  @type {Number}
+       */
+      selectedCounter:{
+        type: Number,
+        value: 0,
+        notify: true,
+        reflectToAttribute: true
+      },
+
+      /**
+       * Disable or enable the element.
+       * @type {Boolean}
+       */
+      disabled: {
+        type: Boolean,
+        value: false,
+        notify: true,
+        reflectToAttribute: true,
+        observer: "_onDisabled"
+      },
+
+      /**
+       * The scale value of the paper element
+       * @type {Number}
+       */
+      _scale: {
+        type: Number,
+        value: 1,
+        notify: true,
+        reflectToAttribute: true
+      },
+
+      /**
+       * The style of cell highlighter
+       * @type {Object}
+       */
+      highlighter: {
+        type: Object,
+        notify: true,
+        reflectToAttribute: true
+      },
+
+      /**
+       * Show/hide the state menu on the sidebar
+       * @type {Boolean}
+       */
+      _showStateContent:{
+        type: Boolean,
+        value:false,
+        notify: true,
+        reflectToAttribute: true
+      },
+
+      /**
+       * Show/hide the edit menu on the sidebar
+       * @type {Boolean}
+       */
+      _showEditContent:{
+        type: Boolean,
+        value:true,
+        notify: true,
+        reflectToAttribute: true
+      }
+    },
+
+    /** UI INITIALIZATION */
+
+    attached: function () {
+      this.async(function () {
+        this.initDiagram()
+      });
+    },
+
+    initDiagram: function () {
+      this._graph = new joint.dia.Graph();
+      this._paper = new joint.dia.Paper({
+        el: this.$.paper,
+        width: 1920,
+        height: 1920,
+        model: this._graph,
+        gridSize: 10,
+        drawGrid:true,
+        // linkPinning:false
+      });
+      this._computeUISize(this.height, this.width);
+      this._shapes = this._setJointJsShapes();
+      this._shapesDict = this._getShapesDict(this.type);
+      this._states = {};
+      this._relations = {};
+      this.selectedElements = [];
+
+      this._setJointJsEventListeners();
+      this._setCellHighlighter();
+      this._setKeyAndMouseEventListeners();
+    },
+
+    _computeUISize: function (h,w) {
+      this.$['app-body'].style = 'height:' + h + 'px; width:' + w+'px;';
+      this.$['sidebar'].style.height = h+'px';
+    },
+
+    _setJointJsShapes: function () {
+      if( this.type === 'uml' ) return joint.shapes.uml;
+      else if( this.type === 'erd' ) return joint.shapes.erd;
+      else if( this.type === 'bpmn' ) return joint.shapes.bpmn;
+    },
+
+    _getShapesDict: function(diagramType) {
+      if(diagramType === 'uml')
+        return {
+          states : ['Class','Abstract','Interface'],
+          relations: ['Generalization','Implementation', 'Aggregation','Composition','Association']
+        };
+      else if(diagramType === 'erd')
+        return {
+          states : {
+            entities: ['Entity','Weak Entity'],
+            relationships: ['Relationship','Identifying Relationship','ISA'],
+            attributes: ['Attribute','Key','Multivalued','Derived']
+          },
+          relations: ['Line']
+        };
+      else if(diagramType === 'bpmn')
+        return {
+          states : {
+            gateway: { name: String, type : ['default', 'inclusive', 'exclusive', 'parallel', 'event-based'] },
+            activity: { content: String, icon : ['none', 'send message', 'receive message', 'user', 'service'], type : ['task', 'transaction', 'event-sub-process', 'call-activity'], "sub-process": Boolean },
+            event: {
+              name: String,
+              type : ['start', 'end', 'intermediate'],
+              subtype : ['none', 'message', 'timer', 'error', 'cancel', 'signal', 'parallel-multiple', 'terminate'],
+              color : { property : 'subtype', subtype: { none : [], message: ['white', 'black'], timer: ['white'], error: ['white', 'black'], cancel : ['white', 'black'], signal: ['white', 'black'], 'parallel-multiple': ['white'], terminate: ['black'] } }
+            },
+            annotation: { content: String },
+            pool: {}
+          },
+          relations: {
+            flow: { type : ['default', 'conditional', 'normal', 'message','association', 'conversation'], label: String },
+          }
+        };
+    },
+
+    _setJointJsEventListeners: function() {
+      this._paper.on('cell:pointerclick', this._selectJointjsObject.bind(this));
+      this._paper.on('link:options', this._selectJointjsObject.bind(this));
+      this._paper.on('link:pointerdown', this._deselectJointjsObj.bind(this));
+      this._paper.on('blank:pointerclick', this._deselectJointjsObj.bind(this));
+      // this._paper.on('blank:pointerdown', this.onDragStart.bind(this));
+      // this._paper.on('cell:pointerup blank:pointerup', this.onDragEnd.bind(this));
+      this._paper.on('cell:pointerup', this._onSelectedPositionChanged.bind(this));
+    },
+
+    _setCellHighlighter: function() {
+      this.highlighter = {
+        highlighter: {
+          name: 'stroke',
+          options: {
+            padding: 10,
+            rx: 5,
+            ry: 5,
+            attrs: { 'stroke-width': 2, stroke: '#FF0000' }
+          }
+        }
+      }
+    },
+
+    _setKeyAndMouseEventListeners: function() {
+      document.addEventListener('keydown',this._keyHandler.bind(this));
+      document.addEventListener('keyup',this._keyHandler.bind(this));
+      document.addEventListener('mouseup',this.stopDragging.bind(this));
+      // this.$['paper-container'].addEventListener('mousemove',this.dragPaper.bind(this));
+    },
+
+    /** EXPAND/COLLAPSE SIDEBAR */
+
+    _expandOrCollapse: function () {
+      if(this.$['sidebar'].className === "open")
+        this._collapseSidebar();
+      else
+        this._expandSidebar();
+    },
+
+    _expandSidebar: function() {
+      var bar = this.$['sidebar'].className = 'open';
+      var btn = this.$['sidebar-button'].firstChild.icon='chevron-left';
+      this._shiftPaper(200)
+    },
+
+    _collapseSidebar: function() {
+      var bar = this.$['sidebar'].className = 'closed';
+      var btn = this.$['sidebar-button'].firstChild.icon='chevron-right';
+      this._shiftPaper(10)
+    },
+
+    _shiftPaper: function (val) {
+      this.$['paper-container'].style.marginLeft = val+'px';
+      this.$['paper-container'].style.width = (this.width-val)+'px';
+    },
+
+    /** EXPAND/COLLAPSE MENU */
+
+    _expandStateMenu: function () {
+      this._showStateContent = !this._showStateContent
+    },
+
+    _expandEditMenu: function () {
+      this._showEditContent = !this._showEditContent
+    },
+
+    /** SIDEBAR CONTENT RENDERING */
+
+    _nothingSelected: function (counter) {
+      return counter === 0;
+    },
+
+    _somethingSelected: function (counter) {
+      return counter > 0;
+    },
+
+    _oneSelected: function(counter){
+      return counter === 1;
+    },
+
+    _twoSelected: function(counter){
+      return counter === 2 && this.selectedElements.every(function (el) {
+        return this._isType('state', el);
+      }.bind(this))
+    },
+
+    _multipleSelected: function(counter){
+      return counter > 1 && !this._twoSelected(counter);
+    },
+
+    /** STATE CREATION */
+
+    _getNewStatePosition: function(){
+
+      var random = Math.random()*(25 - (-25) + (-25));
+      var container = this.$['paper-container'];
+      var paper = this.$['paper'];
+
+      console.log(this.$.sidebar.className);
+      var w = this.width,
+        h = this.height;
+
+        // this._getVal(transform, 'translate')
+      // var w = Number(container.style.width.replace('px','')),
+      //   h = Number(container.style.height.replace('px',''));
+      //
+      // console.log(w,h)
+
+      if(w > paper.offsetWidth)
+        w = paper.offsetWidth;
+      if(h > paper.offsetHeight)
+        h = paper.offsetHeight;
+
+      return {
+        x: (w/(2*this._scale))+container.scrollLeft+random,
+        y: (h/(2*this._scale))+container.scrollTop+random
+      }
+    },
+
+    /** RELATION CREATION */
+
+    _relationPropertiesToJSONObj: function(source, target) {
+      return {source: source, target: target}
+    },
+
+    _getNewLinkPosition: function(state) {
+
+      var bbox = state.getBBox();
+
+      return {
+        source: { id:state.model.get('id') },
+        target: { x : 22+(bbox.x+bbox.width)/this._scale, y : (bbox.y+(bbox.height/2))/this._scale }
+      }
+    },
+
+    _getNewRelAttrs: function() {
+      return {
+        '.connection': { visibility: 'hidden'},
+        '.marker-source': { visibility: 'hidden'},
+        '.connection-wrap':{ visibility: 'hidden'},
+        '.labels':{ visibility: 'hidden'},
+        '.marker-vertices':{ visibility: 'hidden', 'pointer-events' : 'none'},
+        '.marker-arrowhead-group.marker-arrowhead-group-source':{ visibility: 'hidden'},
+        '.link-tools':{ visibility: 'hidden'},
+        '.marker-target': { stroke: '#FF0000', fill: '#FF0000', d:'M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z'}
+      }
+    },
+
+    _connectSelected: function () {
+      var source = this.selectedElements[0].model.get('id');
+      var target = this.selectedElements[1].model.get('id');
+      this._multiDeselectAll();
+      var id = this._connect({id : source}, {id : target});
+      this._singleSelect(this._graph.getCell(id).findView(this._paper));
+    },
+
+    _showNewLinkButton: function(state){
+      if(this._isType('state', state) && !this.newRel){
+
+        var pos = this._getNewLinkPosition(state);
+        var attr = this._getNewRelAttrs();
+        var id = this._connect(pos.source,pos.target);
+
+        this.newRel = this._graph.getCell(id);
+        this.newRel.attr(attr);
+        this.newRel.on('change:target', this._saveNewLink.bind(this));
+        this._restyleArrowHead(id);
+      }
+    },
+
+    _restyleArrowHead: function(id){
+      var arrowHead = this.$.paper.querySelector('g[model-id="'+id+'"] g[class="marker-arrowhead-group marker-arrowhead-group-target"]')
+      if(arrowHead){
+        var transform = arrowHead.getAttribute('transform').split(' ');
+
+        var translate = this._getVal(transform, 'translate')
+
+        arrowHead.setAttribute('transform','translate('+(Number(translate[0])+7.5)+','+(Number(translate[1])+10.5)+') scale(1.3,1.3) rotate(-180)');
+      }
+    },
+
+    _getVal: function (t, match) {
+      for(var i = 0; i<t.length;i++){
+        if(t[i].startsWith(match)){
+          return t[i].replace(match+'(', '').replace(')','').split(',');
+        }
+      }
+    },
+
+    _hideNewLinkButton: function(){
+      if(this.newRel)
+        this._deleteRelation(this.newRel.get('id'),true);
+    },
+
+    _saveNewLink: function (cell,val) {
+      if(this.newRel) {
+        var rel = this.newRel;
+        this.newRel = null;
+        this._deselectJointjsObj();
+        this._resetNewLinkAttr(rel);
+        rel.findView(this._paper).render();
+      }
+      if(val.id){
+        this._singleSelect(cell.findView(this._paper));
+      }
+    },
+
+    /** STATE AND RELATION EDITING */
+
+    _onStatePositionChanged: function (state, pos) {
+      this._states[state.id].state.position = pos;
+      if(this.selected && this.selected.model.get('id')===state.id){
+        this._hideNewLinkButton();
+      }
+      else if(this.selected && this.selected.model.attributes.source)
+        this._onJointjsObjDeselected();
+    },
+
+    _onSelectedPositionChanged: function (cell) {
+      if(this.selected) {
+        if(cell.model.get('id') === this.selected.model.get('id')){
+          this._showNewLinkButton(this.selected)
+        }
+      }
+    },
+
+    _onRelationTargetOrSourceChanged: function (rel) {
+      this._relations[rel.id].relation.source = rel.attributes.source;
+      this._relations[rel.id].relation.target = rel.attributes.target;
+    },
+
+    _changeCellType: function () {
+      this._hideNewLinkButton();
+      var data = this._isType('state', this.selected)? this._getStateFormData(true) : this._getRelationFormData(true);
+      var id = this._updateType(data);
+      this.selected = this._graph.getCell(id).findView(this._paper);
+      this.selected.highlight(null, this.highlighter);
+    },
+
+    _saveChanges: function () {
+      var data = this._isType('state', this.selected)? this._getStateFormData() : this._getRelationFormData();
+      if(data) this.selectedCopy = null;
+      this._deselectJointjsObj()
+    },
+
+    _updateType: function (data) {
+      var id;
+
+      if(this._isType('state', this.selected)){
+        data.position = this.selected.model.get('position');
+        id = this.addState(data);
+        this._copyRelationsAll(this.selected.model.get('id'), id);
+        this._deleteState(this.selected.model.get('id'));
+      } else{
+        id = this.addRelation(data);
+
+        this._copyVertices(this.selected.model.get('id'), id);
+
+        var temp = this.selectedCopy;
+        this._deleteRelation(this.selected.model.get('id'));
+        this.selectedCopy = temp
+      }
+      return id;
+    },
+
+    _copyVertices: function (idFrom, idTo) {
+      var vertices;
+      if((vertices = this._graph.getCell(idFrom).findView(this._paper).model.get('vertices') ))
+        this._graph.getCell(idTo).findView(this._paper).model.set('vertices',vertices)
+    },
+
+    _renderAfterChange: function () {
+      this.selected.render();
+      this.selected.unhighlight(null, this.highlighter);
+      this.selected.highlight(null, this.highlighter);
+    },
+
+    /**
+     * CELLS SELECTION
+     */
+    _selectJointjsObject: function (cellView, evt, x, y) {
+      if(!this.disabled) {
+        var id = cellView.model.id;
+        if (this._states[id] || (this._relations[id] && evt.type === 'mousedown')) { // click on state or on relation 'options' icon
+          if (!this.multiModeEnabled) {
+            if (this.selectedElements.length > 0) {
+              this._multiDeselectAll();
+            }
+            this._singleSelect(cellView);
+          } else {
+            if (!this.selected && this.selectedElements.length === 0) { // null and empty
+              this._singleSelect(cellView);
+            }
+            else if (this.selected && this.selectedElements.length === 0) { // not null and empty
+              if (this.selected.model.id === cellView.model.get('id')) {
+                this._onJointjsObjDeselected();
+              }
+              else {
+                var s = this.selected;
+                this._onJointjsObjDeselected();
+                this._multiSelect(s);
+                this._multiSelect(cellView);
+              }
+            } else if (!this.selected && this.selectedElements.length > 0) { // null and not empty
+              this._multiSelect(cellView);
+            }
+          }
+        }
+      }
+    },
+
+    _singleSelect: function(cellView){
+      if(this.selected){
+        if(this.selected.model.id === cellView.model.get('id'))
+          return;
+        else{
+          if(cellView)
+            this._tempNextRel = cellView;
+          this._onJointjsObjDeselected();
+          if(this._tempNextRel){
+            cellView = this._tempNextRel;
+            this._tempNextRel = null;
+          }
+        }
+      }
+      this.selected = cellView;
+      this.selectedCopy = _.cloneDeep(this.selected.model.attributes) // keep a copy in case of 'undo' operation
+      this.selected.highlight(null, this.highlighter);
+      this.selectedCounter++;
+      this._showNewLinkButton(cellView);
+      this._expandSidebar()
+    },
+
+    _multiSelect: function(cellView){
+      if(this._isSelected(cellView)){
+        this._multiDeselect(cellView);
+        if(this.selectedCounter === 1){ // only one element, switch to single mode
+          this._singleSelect(this.selectedElements[0]);
+          this.selectedCounter=1;
+          this.selectedElements = [];
+        }
+      }
+      else {
+        this.selectedElements.push(cellView);
+        cellView.highlight(null, this.highlighter);
+        this.selectedCounter++;
+      }
+    },
+
+    _isSelected: function (cellView) {
+      for(var i=0;i<this.selectedElements.length;i++){
+        if(this.selectedElements[i].model.get('id') === cellView.model.get('id'))
+          return true;
+      }
+      return false;
+    },
+
+    /**
+     * CELLS DE-SELECTION
+     */
+    _onClearButtonClicked: function (evt) {
+      this._deselectJointjsObj();
+    },
+
+    _deselectJointjsObj: function (cell) {
+      if(this.selectedCounter !== 0){
+        if(cell && cell.model && this.selected && this.newRel){
+          if(this._isNewRelation(cell.model))
+            return;
+        }
+        this._onJointjsObjDeselected();
+        this._multiDeselectAll();
+      }
+    },
+
+    _isNewRelation: function (model) {
+      return model.get('id') === this.newRel.get('id');
+    },
+
+    _onJointjsObjDeselected: function () {
+      var cell = this.selected;
+      if(cell) {
+        this._hideNewLinkButton();
+        if(this.selectedCopy){
+          this._undoChanges();
+        }
+        this.selected.unhighlight(null, this.highlighter);
+        this.selected = null;
+        this._showStateContent = false;
+        this._showEditContent = true;
+        this.selectedCounter--;
+      }
+      return cell;
+    },
+
+    _multiDeselect:function (cellView) {
+      for(var i=0;i<this.selectedElements.length;i++){
+        if(this.selectedElements[i].model.get('id') === cellView.model.get('id')) {
+          this.selectedElements[i].unhighlight(null, this.highlighter);
+          this.selectedElements.splice(i, 1);
+          this.selectedCounter--;
+          return;
+        }
+      }
+    },
+
+    _multiDeselectAll:function () {
+      for(var i=0;i<this.selectedElements.length;i++){
+        this.selectedElements[i].unhighlight(null, this.highlighter);
+      }
+      this.selectedElements = [];
+      this.selectedCounter=0;
+    },
+
+    /**
+     * STATE DELETION
+     */
+    _deleteState: function (id) {
+      var rel = this._findRelations(id,this._relations), t = this;
+
+      rel.forEach(function (r) {
+        t._deleteFromRelationsDict(r) // remove involved relations from relations Dictionary
+      });
+
+      this._deleteCellFromGraph(this._states[id].cid); // remove state from graph (and also involved relations)
+      this._deleteFromStatesDict(id); // remove state from states Dictionary
+    },
+
+    _deleteSelected: function (){
+      if(this.selected) {
+        var sel = this._onJointjsObjDeselected();
+        this._singleDelete(sel);
+
+      } else if(this.selectedCounter > 1){
+        this._multiDelete();
+      }
+    },
+
+    _singleDelete:function (cell) {
+      if (this._isType('state', cell))
+        this._deleteState(cell.model.get('id'))
+      else
+        this._deleteRelation(cell.model.get('id'))
+    },
+
+    _multiDelete: function () {
+      this.selectedElements.forEach(function(el){
+        this._singleDelete(el);
+      }.bind(this));
+      this.selectedElements = [];
+      this.selectedCounter = 0;
+    },
+
+    _deleteFromStatesDict: function (id) {
+      delete this._states[id];
+    },
+
+    _deleteCellFromGraph: function (cid) {
+      // works for both states and relations (also delete elements from 'svg')
+      this._graph.getCell(cid).remove();
+    },
+
+    clear: function() {
+      this._graph.clear();
+      this._states = {};
+      this._relations = {};
+    },
+
+    /**
+     * RELATION DELETION
+     */
+    _deleteRelation: function (id, isNewRel) {
+      if (this._relations[id]) {
+        this._deleteCellFromGraph(this._relations[id].cid); // remove cell from graph
+        this._deleteFromRelationsDict(id);
+        if(isNewRel)
+          this.newRel = null;
+      }
+    },
+
+    /* Called when a link is deleted (after 'remove' event in 'joint.dia') */
+    _onRelationDeleted: function (rel) {
+      if(this.selected && rel.id === this.selected.model.get('id')){
+        this.selectedCopy = null;
+      }
+      // this._onJointjsObjDeselected();
+      this._deleteFromRelationsDict(rel.id);
+    },
+
+    _deleteFromRelationsDict: function (id) {
+      delete this._relations[id];
+    },
+
+    /** HELPER FUNCTIONS */
+
+    _keyHandler: function (evt) {
+      if(evt.key === 'Meta') {
+        if (evt.type === 'keydown') this.multiModeEnabled = true;
+        else if (evt.type === 'keyup') this.multiModeEnabled = false;
+      }
+    },
+
+    // onDragStart: function(event, x, y) {
+    //   this.dragStartPosition = { x: x*this._scale, y: y*this._scale};
+    // },
+    //
+    // onDragEnd: function(event, x, y) {
+    //   delete this.dragStartPosition;
+    // },
+    //
+    // dragPaper: function (evt) {
+    //   if (this.dragStartPosition){
+    //     this.$['paper-container'].scrollLeft += (this.dragStartPosition.x - evt.offsetX);
+    //     this.$['paper-container'].scrollTop += (this.dragStartPosition.y - evt.offsetY);
+    //   }
+    // },
+
+    _onDisabled: function(val){
+      if(val){
+        if(this.selectedCounter && this.selectedCounter > 0)
+          this._deselectJointjsObj();
+        this._collapseSidebar();
+        this._disableAll();
+      }
+      else if(!val){
+        this._expandSidebar();
+        this._enableAll();
+      }
+    },
+
+    _disableAll: function(){
+      this.$.paper.setAttribute('is-disabled','true');
+      this.$.sidebar.querySelector('div[id="sidebar-button"]').style = "display: none !important;";
+      if(this._graph){
+        this._graph.getCells().forEach(function (cell) {
+          cell.findView(this._paper).options.interactive = false;
+        }.bind(this))
+      }
+    },
+
+    _enableAll: function(){
+      this.$.paper.setAttribute('is-disabled','false');
+      this.$.sidebar.querySelector('div[id="sidebar-button"]').removeAttribute('style');
+      if(this._graph){
+        this._graph.getCells().forEach(function (cell) {
+          cell.findView(this._paper).options.interactive = {labelMove: false};
+        }.bind(this))
+      }
+    },
+
+    _createLabels: function(sLabel, tLabel) {
+      return {
+        labels: [
+          {
+            position: 20,
+            attrs: {
+              text: { dy: -8, text: sLabel, fill: '#000000' },
+              rect: { fill: '#ffffff' }
+            }
+          },
+          {
+            position: -20,
+            attrs: {
+              text: { dy: -8, text: tLabel, fill: '#000000' },
+              rect: { fill: '#ffffff' }
+            }
+          }]
+      };
+    },
+
+    _createLabel: function(label) {
+      return {
+        labels: [{
+          attrs: {
+            text: { text: label, fill: '#000000' },
+            rect: { fill: '#ffffff' }
+          },
+          position: 0.5 }]
+      };
+    },
+
+    _isType: function(type, selected){
+      if(selected){
+        if(this._states[selected.model.id])
+          return type === 'state';
+        else
+          return type === 'relation';
+      }
+      return false;
+    },
+
+    _getIcon: function (show) {
+      return show ? 'remove-circle' : 'add-circle';
+    },
+
+    _strCmp: function (a,b) {
+      return a === b;
+    },
+
+    setDropdownMenuHeight: function(e,val){
+      if(val.value){
+        var menu = Polymer.dom(e).localTarget;
+        var relativeY = menu.getBoundingClientRect().y - this.getBoundingClientRect().y
+        Polymer.dom(menu).querySelector('paper-listbox').style['max-height'] = (this.height/2)+'px';
+        if(this.height > relativeY+(this.height/2))
+          menu.verticalAlign = 'top';
+        else
+          menu.verticalAlign = 'bottom';
+      }
+    },
+
+    _scalePaper: function(t) {
+      this.$.paper.style = 'height:' + (1920*this._scale) + 'px;' + 'width:' + (1920*this._scale) + 'px;';
+    },
+
+    startDragging : function(evt){
+      if(evt.stopPropagation) evt.stopPropagation();
+      if(evt.preventDefault) evt.preventDefault();
+      document.onmousemove = this.onMouseMove.bind(this);
+    },
+
+    onMouseMove: function (evt) {
+      var coords = this.$['app-body'].getBoundingClientRect();
+      var top = coords.top;
+      var left = coords.left;
+
+      this.height = Math.max(evt.clientY-top, 200);
+      this.width = Math.max(evt.clientX-left, 200);
+
+      this.$['app-body'].style = 'height:' + this.height + 'px; width:' + this.width+'px;';
+      this.$.sidebar.style.height = this.height+'px';
+      this.$['paper-container'].style.width = (this.width - (this.$['sidebar'].className === 'open'? 200:10))+'px'
+    },
+
+    stopDragging : function(){
+      document.onmousemove = function(){};
+    },
+
+    _showStateErrorMessage: function(el, required) {
+      var err, keys = Object.keys(required);
+      for( var i=0 ; i<keys.length ; i++) {
+        if(!required[keys[i]]){
+          err = '- ' + keys[i] + ' missing';
+          break;
+        }
+      }
+
+      if(err) {
+        this._showError(el,err);
+        return true;
+      }
+      return false;
+    },
+
+    _showRelationErrorMessage: function(el, required){
+      var err, keys = Object.keys(required);
+      for( var i=0 ; i<keys.length ; i++) {
+        if(!required[keys[i]]){
+          err = '- ' + keys[i] + ' missing';
+          break;
+        }
+      }
+
+      if(err) {
+        this._showError(el,err);
+        return true;
+      }
+      return false;
+    },
+
+    _showError: function(el, text) {
+      var err = el.querySelector('div[id=error]');
+      if(err){
+        err.style = 'visibility:visible';
+        err.querySelector('p[id=whichError]').innerHTML = text;
+        setTimeout(function(){
+          err.removeAttribute('style');
+        }, 2000);
+      }
+    },
+
+    _findRelations: function(id, relations) {
+      var rel = [];
+      Object.keys(relations).forEach(function (r) {
+        if (relations[r].relation.source.id === id || relations[r].relation.target.id === id)
+          rel.push(r);
+      });
+      return rel;
+    },
+
+    zoomIn: function () {
+      this._scale += 0.05;
+      this._paper.scale(this._scale,this._scale);
+      this._scalePaper();
+    },
+
+    zoomOut: function () {
+      if(this._scale-0.05 > 0){
+        this._scale -= 0.05;
+        this._paper.scale(this._scale,this._scale);
+        this._scalePaper();
+      }
+    },
+
+    getScale: function (scale) {
+      return (Math.round(this._scale*100));
+    },
+
+    onScaleValueChanged: function (evt) {
+      if(evt.target.value && evt.target.value > 0){
+        this._scale = evt.target.value/100;
+        this._paper.scale(this._scale,this._scale);
+        this._scalePaper();
+      }
+    }
+  };
+
+  var diagramQBPMNBehaviour = ASQ.diagramQBPMNBehaviour = {
+
+    /** STATE CREATION */
+
+    _createState: function (type, state) {
+      var s = { position : state.position };
+      var cell;
+
+      if (type === 'Gateway'){
+
+        state.name = state.name || '';
+        s.attrs = { text: { text: state.name } };
+
+        state.type = state.type || 'default';
+        s.icon = this._gatewayIconsDict(state.type);
+
+        cell = new this._shapes.Gateway(s);
+      }
+      else if (type === 'Activity'){
+
+        state.content = state.content || '';
+        s.content = state.content;
+
+        state.icon = state.icon || 'none';
+        s.icon = this._activityIconsDict(state.icon);
+
+        state.type = state.type || 'task';
+        s.activityType = state.type;
+
+        state.subProcess = state.subProcess || false;
+        s.subProcess = state.subProcess;
+
+        cell = new this._shapes.Activity(s);
+      }
+      else if (type === 'Event') {
+
+        state.name = state.name || '';
+        s.attrs = { text: { text: state.name } };
+
+        state.type = state.type || 'start';
+        s.eventType = state.type;
+
+        state.subtype = state.subtype || 'none';
+        s.icon = this._eventIconsDict(state.subtype);
+
+        var values = this._getNestedValues(type.toLowerCase(), 'color', 'subtype', state.subtype);
+        state.color = values.includes(state.color)? state.color : values[0];
+        if(state.color === 'black') s.icon = s.icon.replace('Black', '') + 'Black';
+
+        cell = new this._shapes.Event(s);
+      }
+      else if (type === 'Annotation') {
+
+        state.content = state.content || '';
+        s.content = state.content;
+
+        s.attrs = { rect: { fill: '#FFFFFF', 'fill-opacity': .5 } };
+
+        cell = new this._shapes.Annotation(s);
+      }
+
+      else if(type === 'Pool'){
+
+        state.lanes = state.lanes || {};
+        s.lanes = state.lanes;
+
+        state.attrs = state.attrs || {};
+        s.attrs = state.attrs;
+
+        cell = new this._shapes.Pool(s);
+      }
+
+      return cell;
+    },
+
+    _activityIconsDict: function (icon) {
+      var i = 'none';
+      switch (icon) {
+        case 'send message':
+          i = 'messageBlack';
+          break;
+        case 'receive message':
+          i = 'message';
+          break;
+        case "user":
+          i = 'user';
+          break;
+        case "service":
+          i = 'service';
+      }
+      return i;
+    },
+
+    _eventIconsDict: function (subtype) {
+      var icon = 'none';
+      switch (subtype) {
+        case 'cancel':
+          icon = 'cross';
+          break;
+        case 'timer':
+          icon = 'timer';
+          break;
+        case 'error':
+          icon = 'error';
+          break;
+        case 'signal':
+          icon = 'signal';
+          break;
+        case 'terminate':
+          icon = 'circleBlack';
+          break;
+        case 'message':
+          icon = 'message';
+          break;
+        case 'parallel-multiple':
+          icon = 'plus';
+      }
+      return icon;
+    },
+
+    _gatewayIconsDict: function (subtype) {
+      var icon = 'none';
+      switch (subtype) {
+        case 'exclusive':
+          icon = 'crossBlack';
+          break;
+        case 'inclusive':
+          icon = 'circle';
+          break;
+        case 'parallel':
+          icon = 'plusBlack';
+          break;
+        case 'event-based':
+          icon = 'eventBased';
+      }
+      return icon;
+    },
+
+    /** RELATION CREATION */
+
+    _getDefaultBPMNRelAttrs: function() {
+      return {
+        ".marker-source": {
+          d: "M 0 0"
+        },
+        ".marker-target": {
+          d: "M 10 0 L 0 5 L 10 10 z",
+          fill: "#000000"
+        },
+        ".connection": {
+          "stroke-dasharray": " ",
+          "stroke-width": 1
+        },
+        ".connection-wrap": {
+          style: "",
+          onMouseOver: "",
+          onMouseOut: ""
+        }
+      };
+    },
+
+    /** STATE AND RELATION EDITING */
+
+    _getStringValue: function (cell, prop) {
+      if(cell)
+        return (this._isType('state', cell)? this._states[cell.model.id].state : this._relations[cell.model.id])[prop] || '';
+    },
+
+    _onStringValueChanged: function(evt){
+
+      var value = evt.target.value;
+      var prop = Polymer.dom(evt).localTarget.closest('div[class="menu-element"]').id;
+
+      if(this._isType('state', this.selected)){
+
+        var state = this._states[this.selected.model.get('id')].state;
+
+        if(prop === "name") {
+          this.selected.model.attr('text/text', value);
+          state.name = value;
+        } else if(prop === "content") {
+          this.selected.model.set('content', value);
+          state.content = value;
+
+          state.size = this._computeBPMNStateSize(this.selected.model, state.defaultSize);
+        }
+      } else{
+        if(prop === "label") {
+          this.selected.model.set(this._createLabel(value));
+          this._relations[this.selected.model.get('id')].label = value;
+        }
+      }
+      this._hideNewLinkButton();
+      this._renderAfterChange();
+      this._showNewLinkButton(this.selected);
+    },
+
+    _getBooleanValue: function (cell, prop) {
+      if(cell)
+        return (this._isType('state', cell)? this._states[cell.model.id].state : this._relations[cell.model.id])[_.camelCase(prop)] || false;
+    },
+
+    _onBooleanValueChanged: function (evt, val) {
+      var el = evt.target.closest('div[class="menu-element"]');
+
+      if(el && val.value !== undefined){
+        var cell = this._states[this.selected.model.get('id')];
+        if(cell){
+          var state = this._states[this.selected.model.get('id')].state;
+          var prop = _.camelCase(evt.target.closest('div[class="menu-element"]').id);
+
+          state[prop] = val.value;
+          this.selected.model.set(prop, val.value);
+
+          this._renderAfterChange();
+        }
+      }
+    },
+
+    _getSelectedItem: function (cell, prop) {
+      if(cell){
+        var items = this._getDropdownItems(cell, prop);
+        var item = (this._isType('state', cell)? this._states[cell.model.id].state : this._relations[cell.model.id])[prop] || '';
+
+        return items.indexOf(item);
+      }
+    },
+
+    _getNestedSelectedItem: function (cell, prop) {
+      if(cell){
+        var items = this._getDropdownItemsNestedValues(cell, prop);
+        var item = this._states[this.selected.model.id].state[prop] || '';
+        return items.indexOf(item);
+      }
+    },
+
+    _onItemsChanged: function (evt) {
+      var list = evt.target.parentElement;
+      list.selected =-1;
+      list.selected = this._getSelectedItem(this.selected, list.item);
+    },
+
+    _onNestedItemsChanged: function (evt) {
+      var list = evt.target.parentElement;
+
+      var items = this._getDropdownItemsNestedValues(this.selected, list.item);
+      if(!items) return;
+      if(!items.length){
+        this.$$('div [class=menu-content] div[id="color"]').style = 'visibility: hidden;height:0';
+      } else {
+        this.$$('div [class=menu-content] div[id="color"]').removeAttribute('style');
+        list.selected =-1;
+        list.selected = this._getNestedSelectedItem(this.selected, list.item)
+      }
+    },
+
+    _onSelectedItemChanged: function (evt, val) {
+
+      if(val.value) {
+
+        var cell = this._isType('state', this.selected)? this._states[this.selected.model.id] : this._relations[this.selected.model.id];
+
+        var prop = evt.target.closest('div[class="menu-element"]').id;
+        var newVal = val.value.toLowerCase();
+        var oldVal = (this._isType('state', this.selected)? cell.state : cell.relation)[prop];
+
+        if(newVal !== oldVal){
+          var kProp = this._getCellProp(this.selected, prop);
+
+          var kValue;
+
+          if(kProp === 'icon'){
+            if (cell.type === 'Gateway') kValue = this._gatewayIconsDict(newVal);
+            else if (cell.type === 'Activity') kValue = this._activityIconsDict(newVal);
+            else if (cell.type === 'Event') {
+              kValue = this._eventIconsDict(newVal);
+
+              var colorValues = this._getNestedValues('event', 'color', prop, newVal);
+              cell.state.color = colorValues.length > 0? colorValues[0] : '';
+              this.$$('div [class=menu-content] div[id="color"] template[id="items"]').set('items',colorValues)
+            }
+
+          } else
+            kValue = newVal;
+
+          // console.log('Prop:',prop, '=', kProp, ', OldVal:', oldVal, ', NewVal:',newVal,'=', kValue)
+
+          if(this._isType('state', this.selected)) cell.state[prop] = newVal;
+          else cell[prop] = newVal;
+
+          this.selected.model.set(kProp, kValue);
+
+          if (cell.state && cell.state.hasOwnProperty('content'))
+            cell.state.size = this._computeBPMNStateSize(this.selected.model, cell.state.defaultSize);
+
+          this._hideNewLinkButton();
+          this._renderAfterChange();
+          this._showNewLinkButton(this.selected);
+
+        }
+      }
+    },
+
+    _onNestedSelectedItemChanged: function (evt, val) {
+      if(val.value) {
+
+        var cell = this._isType('state', this.selected)? this._states[this.selected.model.id] : this._relations[this.selected.model.id];
+
+        var prop = evt.target.closest('div[class="menu-element"]').id;
+        var newVal = val.value.toLowerCase();
+        var oldVal = cell.state[prop];
+
+        if(newVal !== oldVal){
+          cell.state[prop] = newVal;
+
+          if(prop === 'color' && cell.type.toLowerCase() === 'event'){
+            var icon = this._eventIconsDict(cell.state.subtype);
+            this.selected.model.set('icon', newVal === 'black'? icon.replace('Black', '') + 'Black' : icon)
+          }
+        }
+      }
+    },
+
+    _undoChanges: function(){
+      // do nothing
+      this.selectedCopy = null;
+    },
+
+    _getCellProp: function (cell, key) {
+
+      var dict = this._bpmnPropDict();
+
+      if(cell.model instanceof joint.shapes.bpmn.Gateway) return dict.states.gateway[key];
+      else if(cell.model instanceof joint.shapes.bpmn.Activity) return dict.states.activity[key];
+      else if(cell.model instanceof joint.shapes.bpmn.Event) return dict.states.event[key];
+      else if(cell.model instanceof joint.shapes.bpmn.Flow) return dict.relations.flow[key];
+
+    },
+
+    _bpmnPropDict: function () {
+      return {
+        states : {
+          gateway: { type: 'icon'},
+          activity: { icon : 'icon', type : 'activityType' },
+          event: { type : 'eventType', subtype : 'icon' },
+          annotation: {},
+          Pool: {}
+        },
+        relations: {
+          flow: { type : 'flowType' },
+        }
+      }
+    },
+
+    /** STATE SELECTION */
+
+    /* Overwrite from ASQ.diagramQBehaviour */
+    _singleSelect: function(cellView){
+      if(this.selected){
+        if(this.selected.model.id === cellView.model.get('id'))
+          return;
+        else{
+          if(cellView)
+            this._tempNextRel = cellView;
+          this._onJointjsObjDeselected();
+          if(this._tempNextRel){
+            cellView = this._tempNextRel;
+            this._tempNextRel = null;
+          }
+        }
+      }
+      if(cellView.model instanceof joint.shapes.bpmn.Pool)
+        return;
+
+      this.selected = cellView;
+      this.selectedCopy = _.cloneDeep(this.selected.model.attributes) // keep a copy in case of 'undo' operation
+      this.selected.highlight(null, this.highlighter);
+      this.selectedCounter++;
+      this._showNewLinkButton(cellView);
+      this._expandSidebar()
+    },
+
+    /** HELPER FUNCTIONS */
+
+    _isObject: function (cell, prop) {
+      if(cell) return this._isTypeOf(cell, prop, Object);
+    },
+
+    _isTypeOf: function (cell, prop, type) {
+
+      var value = this._getPropertyValue(cell, prop);
+
+      if( this._isFunction(value) )
+        return value.toString() === type.toString();
+      else if ( !this._isFunction(value) ){
+        if(type.toString() === Object.toString())
+          return value && value.property;
+        else
+          return value instanceof type && type.toString() === Array.toString();
+      }
+    },
+
+    _isFunction: function (value) {
+      return value instanceof Function
+    },
+
+    _getDropdownItemsNestedValues: function (cell, prop) {
+      if(cell){
+
+        var type = cell.model.get('type').toLowerCase().replace('bpmn.','');
+        if(type !== 'event') return;
+
+        var p_prop = this._shapesDict.states[type][prop].property;
+        var p_value = this._states[cell.model.id].state[p_prop]
+
+        return this._getNestedValues(type, prop, p_prop, p_value);
+      }
+    },
+
+    _getNestedValues: function (type, prop, p_prop, p_value) {
+      return this._shapesDict.states[type][prop][p_prop][p_value];
+    },
+
+  };
+
+  var diagramQUMLBehaviour = ASQ.diagramQUMLBehaviour = {
+
+    /** STATE CREATION */
+
+    _umlStatePropertiesToJSONObj: function(name, attributes, methods, position, size) {
+      return {name: name, attributes: attributes, methods: methods, position: position, size: size}
+    },
+
+    _getUMLAttrs: function(type) {
+
+      var attrs = {
+        '.uml-class-name-text': {
+          fontSize: 12,
+          fontFamily: 'Courier'
+        },
+        '.uml-class-attrs-text, .uml-class-methods-text': {
+          fontSize: 10,
+          fontFamily: 'Courier'
+        }
+      };
+
+      if (type.toLowerCase() === 'class') {
+        attrs['.uml-class-name-rect'] = {
+          fill: '#ff8450',
+          stroke: '#fff',
+          'stroke-width': 0.5
+        };
+
+        attrs['.uml-class-attrs-rect, .uml-class-methods-rect'] = {
+          fill: '#fe976a',
+          stroke: '#fff',
+          'stroke-width': 0.5
+        };
+
+        attrs['.uml-class-attrs-text'] = {
+          ref: '.uml-class-attrs-rect',
+          'ref-y': 0.5,
+          'y-alignment': 'middle'
+        };
+
+        attrs['.uml-class-methods-text'] = {
+          ref: '.uml-class-methods-rect',
+          'ref-y': 0.5,
+          'y-alignment': 'middle'
+        };
+      }
+
+      else if (type.toLowerCase() === 'abstract') {
+        attrs['.uml-class-name-rect'] = {
+          fill: '#68ddd5',
+          stroke: '#ffffff',
+          'stroke-width': 0.5
+        };
+
+        attrs['.uml-class-attrs-rect, .uml-class-methods-rect'] = {
+          fill: '#9687fe',
+          stroke: '#fff',
+          'stroke-width': 0.5
+        };
+
+        attrs['.uml-class-methods-text, .uml-class-attrs-text'] = {
+          fill: '#fff'
+        };
+      }
+
+      else {
+        attrs['.uml-class-name-rect'] = {
+          fill: '#feb662',
+          stroke: '#ffffff',
+          'stroke-width': 0.5
+        };
+
+        attrs['.uml-class-attrs-rect, .uml-class-methods-rect'] = {
+          fill: '#fdc886',
+          stroke: '#fff',
+          'stroke-width': 0.5
+        };
+
+        attrs['.uml-class-attrs-text'] = {
+          ref: '.uml-class-attrs-rect',
+          'ref-y': 0.5,
+          'y-alignment': 'middle'
+        };
+
+        attrs['.uml-class-methods-text'] = {
+          ref: '.uml-class-methods-rect',
+          'ref-y': 0.5,
+          'y-alignment': 'middle'
+        };
+      }
+
+      return attrs;
+    },
+
+    /** RELATION CREATION */
+
+    _getDefaultUMLRelAttrs: function() {
+      return {'.marker-target': {d: 'M 20 0 L 0 10 L 20 20 z', fill: 'white'}};
+    },
+
+    /** STATE AND RELATION EDITING */
+
+    _getUMLModelData: function(model, isState) {
+      var type = this._getUMLModelSubType(model,isState);
+      if (isState)
+        return {
+          name: model.name,
+          type: type,
+          attributes: model.attributes,
+          methods: model.methods
+        };
+      else
+        return {
+          type: type,
+          source: model.source,
+          target: model.target
+        }
+    },
+
+    _getUMLModelSubType: function(model, isState) {
+      var subType, collection = isState? this._getShapesDict('uml').states : this._getShapesDict('uml').relations;
+
+      collection.forEach(function (value) {
+        subType = model.type.includes(value)? value : subType;
+      });
+      return subType;
+    },
+
+    _editAttribute: function (cell, key, value) {
+      cell.model.set(key, value);
+
+      if(this._isType('state', cell))
+        this._states[cell.model.id].state[key] = value;
+      else
+        this._relations[cell.model.id].relation[key] = value;
+    },
+
+    _getValuesFromTable: function(table) {
+      var rows = table.querySelectorAll('paper-input');
+      return Array.prototype.slice.call(rows).filter(function(el){
+        return !!el.value.trim();
+      }).map(function (x) {
+        return x.value.trim();
+      });
+    },
+
+    /** HELPER FUNCTIONS */
+
+    _computeUMLStateSize: function(name, attributes, methods) {
+      var arr = [name].concat(attributes, methods);
+      return {
+        width: this._computeStateWidth(arr) + 2, // + 2 for margins
+        height: Math.max(50, 2 * 15 + (arr.length) * 12)
+      }
+    },
+
+    _computeStateWidth: function(arr) {
+      var w = 0;
+      for (var i = 0; i < arr.length; i++) {
+        w = Math.max(w, this._getWidthOfText(arr[i], (i===0)))
+      }
+      return Math.max(Math.max(w),100);
+    },
+
+    _getWidthOfText: function(txt, bold) {
+      var canvas = document.createElement('canvas');
+      var ctx = canvas.getContext('2d');
+      ctx.font = bold ? '12.5px Courier' : '10.4px Courier';
+
+      return ctx.measureText(txt).width;
+    },
+
+    _getWidthOfTextVariableFont: function(txt, fontSize) {
+      var canvas = document.createElement('canvas');
+      var ctx = canvas.getContext('2d');
+      ctx.font = fontSize +'px Arial';
+      return ctx.measureText(txt).width;
+    },
+
+  };
+
+  var diagramQERDBehaviour = ASQ.diagramQERDBehaviour = {
+
+    /** STATE CREATION */
+
+    _getERDAttrs: function(type, label) {
+      if (type !== 'ISA')
+        return { text: { text: label }};
+      else
+        return {};
+    },
+
+    /** STATE AND RELATION EDITING */
+
+    _getERDModelData: function(model, isState){
+      var type = this._getERDModelSubType(model,isState);
+      if (isState)
+        return {
+          type: type,
+          label: type.includes('ISA')? '' : model.attrs.text.text
+        };
+      else
+        return {
+          source: model.source,
+          target: model.target,
+          sLabel: model.labels[0].attrs.text.text,
+          tLabel: model.labels[1].attrs.text.text
+        }
+    },
+
+    _getERDModelSubType: function(model, isState){
+      var subType, collection = isState? this._getShapesDict('erd').states : this._getShapesDict('erd').relations;
+
+      if(!Array.isArray(collection)){
+        collection = this._shapesObjToArray(collection);
+      }
+
+      if(model.type.includes('Normal'))
+        model.type = 'Attribute';
+
+      collection.forEach(function (value) {
+        if(model.type.toLowerCase().replace(/erd./g, '') === value.toLowerCase().replace(/\s/g, ''))
+          subType = value;
+      });
+      return subType;
+    },
+
+    _shapesObjToArray: function(obj) {
+      var array=[];
+      Object.keys(obj).forEach(function (arr) {
+        obj[arr].forEach(function (el) {
+          array.push(el);
+        });
+      });
+      return array;
+    },
+
+    /** HELPER FUNCTIONS */
+
+    _not_ISA_Relationship: function(type){
+      return type && !type.includes("ISA");
+    },
+
+  };
+
+  var diagramQPresenterBehaviour = ASQ.diagramQPresenterBehaviour = {
+
+    properties: {
+      value: {
+        type: Object,
+        notify: true,
+        observer: '_valueChanged'
+      }
+    },
+
+    /** PRESENTER INIT GRAPH */
+    _valueChanged: function (newVal,oldVal) {
+      this._clear();
+      if(newVal){
+        this._fillGraph(this.value.diagram);
+        this._cropAndScaleGraph();
+      }
+    },
+
+    /** Helper functions */
+
+    _onClearBtnTap: function () {
+      this.value = null;
+    },
+
+    _cropAndScaleGraph: function () {
+
+      var coord = {
+        x0: -1,
+        x1: -1,
+        y0: -1,
+        y1: -1
+      };
+
+      var h = this.height, w = this.width-10;
+
+      var bbox;
+      this._graph.getCells().forEach(function (cell) {
+        bbox = cell.findView(this._paper).getBBox();
+
+        coord.x0 = this._getMin(coord.x0, bbox.x);
+        coord.x1 = this._getMax(coord.x1, (bbox.x + bbox.width) );
+        coord.y0 = this._getMin(coord.y0, bbox.y);
+        coord.y1 = this._getMax(coord.y1, (bbox.y + bbox.height) );
+      }.bind(this));
+
+      var pWidth = (coord.x1 - coord.x0)+40;
+      var pHeight = (coord.y1 - coord.y0)+40;
+
+      if(this._paper){
+
+        var hRatio = h/pHeight;
+        var wRatio = w/pWidth;
+        var s, yScroll, xScroll;
+
+        if(hRatio <= wRatio){
+          s = hRatio;
+          yScroll = (coord.y0-20)*s;
+          xScroll = (coord.x0-20)*s - ((w-(pWidth*s))/2);
+
+        } else if(hRatio > wRatio){
+          s = wRatio;
+          yScroll = (coord.y0-20)*s - ((h-(pHeight*s))/2);
+          xScroll = (coord.x0-20)*s;
+        }
+
+        this._paper.scale(s, s);
+        this._scale = s;
+
+        this.$['paper-container'].scrollLeft = xScroll;
+        this.$['paper-container'].scrollTop = yScroll;
+      }
+    },
+
+    _getMax: function(a,b) {
+      if(a === -1 || (a !== -1 && a < b) )
+        return b;
+      return a;
+    },
+
+    _getMin: function(a,b) {
+      if(a === -1 || (a !== -1 && a > b) )
+        return b;
+      return a;
+    },
+
+    _resetSize: function () {
+      this._scale=1;
+      this._scalePaper();
+      this._paper.scale(this._scale, this._scale);
+    },
+
+    _clear: function(){
+      this._resetSize();
+      this._graph.clear();
+      this._states = {};
+      this._relations = {};
+    },
+  };
+
+  ASQ.diagramQBehavior = [
+    diagramQGlobalBehaviour,
+    diagramQCommonUIBehaviour,
+    diagramQBPMNBehaviour,
+    diagramQUMLBehaviour,
+    diagramQERDBehaviour,
+    diagramQPresenterBehaviour
+  ]
+
+</script>

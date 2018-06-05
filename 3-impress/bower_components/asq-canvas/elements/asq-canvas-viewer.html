@@ -1,0 +1,113 @@
+<link rel="import" href="../../polymer/polymer.html">
+<link rel="import" href="../../iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../../asq-base/asq-base.html">
+<link rel="import" href="asq-canvas-behaviour.html">
+<link rel="import" href="asq-canvas-style.html">
+
+<!--
+`asq-canvas-viewer` provides the presenter view of `asq-text-input-q-stats`.
+
+Example:
+
+    <asq-canvas-viewer for="leId">
+    </asq-canvas-viewer>
+
+
+@element asq-canvas-viewer
+@demo demo/stats.html
+@group ASQ Elements
+@blurb Element provides a stats for `asq-text-input-q` elements.
+@homepage http://github.com/ASQ-USI-Elements/asq-text-input-q
+-->
+<dom-module id="asq-canvas-viewer">
+
+  <template>
+
+    <style include="asq-canvas-style"></style>
+
+    <canvas id="canvas"></canvas>
+
+  </template>
+</dom-module>
+
+<script>
+  (function() {
+
+    Polymer({
+      is: 'asq-canvas-viewer',
+      behaviors: [ASQ.asqCanvasElementBehavior],
+
+      properties: {
+
+        /**
+         * The drawing of the current slide.
+         */
+        lastDrawing: {
+          type: Array,
+          value: [],
+        },
+
+        eventBus: {
+          type: Object,
+          observer: "_eventBusChanged",
+          notify: true
+        },
+      },
+
+      _eventBusChanged: function (eventBus, old) {
+        if(!eventBus) return;
+        eventBus.on('asq-plugin', this._onAsqPlugin.bind(this));
+      },
+
+      _onAsqPlugin: function(evt){
+        if(evt.type !== "asq-canvas") return;
+
+        var d = evt.data;
+
+        switch (d.command){
+          case "drawOnCanvas":
+            var standardWidth = 1366;
+            var standardHeight = 768;
+
+            if (!d.form) return;
+
+            var x1 = this._computeCoordinate(d.mouseX, d.slideWidth, this.slideWidth, d.sMX, this.sMX);
+            var y1 = this._computeCoordinate(d.mouseY, d.slideHeight, this.slideHeight, d.sMY, this.sMY);
+            var x2 = this._computeCoordinate(d.lastX, d.slideWidth, this.slideWidth, d.sMX, this.sMX);
+            var y2 = this._computeCoordinate(d.lastY, d.slideHeight, this.slideHeight, d.sMY, this.sMY);
+
+            this._setDrawingProperties({ drawingColor : d.drawingColor, lineWidth : d.lineWidth, gCO : d.gCO});
+
+            this.lastDrawing.push(d);
+
+            if (d.form == "circle") this._drawCircle(null, x1, y1, this.lineWidth * (window.innerWidth * window.innerHeight) / (standardWidth * standardHeight));
+            else this._drawLine(null, x1, y1, x2, y2, this.lineWidth * (window.innerWidth * window.innerHeight) / (standardWidth * standardHeight));
+
+            break;
+
+          case "clearTo":
+            this._clearTo();;
+            break;
+
+          case "loadImage":
+            if (document.readyState !== 'complete') {
+              window.addEventListener('load', function() {
+                this._loadImageHandler(d);
+              }.bind(this));
+            }
+            else this._loadImageHandler(d);
+            break;
+        }
+      },
+
+      _loadImageHandler: function(d) {
+        this._setSlideProperties(d.slideId);
+        if (d.drawing) {
+          this.lastDrawing = d.drawing;
+          this._loadImage(this.lastDrawing);
+        }
+      }
+
+    });
+  })();
+</script>

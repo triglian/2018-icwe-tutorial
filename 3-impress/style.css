@@ -1,0 +1,32 @@
+@media screen {
+  .step.flash.past,
+  .step.flash.future {
+      pointer-events: none;
+  }
+
+  /* progress bar */
+  #progress {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 8px;
+    background-color: #428bca;
+    -webkit-box-shadow: inset 0 -1px 0 rgba(0,0,0,.15);
+    box-shadow: inset 0 -1px 0 rgba(0,0,0,.15);
+    -webkit-transition: width .6s ease, background .6s ease;
+    transition: width .6s ease, background .6s ease;
+  }
+
+body {
+  background-position: center;
+  background-size: cover;
+}
+
+body[data-asq-role="viewer"] #welcome {display: none;}
+body.impress-on-title #welcome {display: none;}  
+
+#title asq-welcome {font-size: 0.75em;}
+
+#asq-fiddle1, #asq-fiddle2 {width: 95vw;}
+
+}

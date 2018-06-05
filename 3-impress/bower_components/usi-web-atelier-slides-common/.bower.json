@@ -1,0 +1,34 @@
+{
+  "name": "USI-Web-Atelier-Slides-Common",
+  "private": "true",
+  "authors": [
+    "Cesare Pautasso",
+    "Vasileios Triglianos"
+  ],
+  "description": "Common assets for USI Web Atelier Presentations.",
+  "main": "js/main.js",
+  "keywords": [
+    "USI",
+    "Web Atelier"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {},
+  "homepage": "https://github.com/ASQ-USI-Elements/usi-web-atelier-slides-common",
+  "_release": "ad6d4bdc31",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "ad6d4bdc318a09e3a7b8a31663956c8f83a1538d"
+  },
+  "_source": "https://github.com/ASQ-USI-Elements/usi-web-atelier-slides-common.git",
+  "_target": "master",
+  "_originalSource": "ASQ-USI-Elements/usi-web-atelier-slides-common"
+}
