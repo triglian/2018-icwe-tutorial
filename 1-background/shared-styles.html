@@ -3,6 +3,14 @@
   <template>
     <style>
 
+    #timeline span.time {width: 7em; display: inline-block; text-align: center; margin-right: 1em ;} 
+    #timeline {text-align: left}
+    #timeline div div:hover {font-weight: bold;}
+    #timeline div div:hover span.time {background: yellow;}
+
+    #inter-dom h2:hover {text-shadow: black 0px 0px 5px;}
+    #inter-dom button {font-size: 1em;}
+
     #clock {position: fixed; bottom: 0;}
 
     .pro {color: green; font-weight: bold;}
@@ -13,11 +21,11 @@
 
     body.on-splash #joinasqmsg {opacity: 0;}
 
-    #web-plus p {font-weight: bold}
+    #web-plus p, #web-minus p {font-weight: bold}
 
     li:hover {font-weight: bold;}
 
-    #asq-webf, #asq-css {text-align: left}
+    #asq-webf, #asq-css, #asq-html-skills, #asq-ppt-skills {text-align: left}
 
     #splash asq-welcome{
       --asq-welcome-qr-container:{

@@ -51,7 +51,7 @@
     <script>function tick() {var d = new Date(); document.getElementById("clock").innerHTML = d.getHours() + ":" + (d.getMinutes() < 10 ? "0" + d.getMinutes() : d.getMinutes());}
 setInterval(tick,500);</script>
 <div id="clock">XX:YY</div>  
-      
+     
 
 
     <div class="reveal">
@@ -73,13 +73,14 @@ setInterval(tick,500);</script>
           </div>
 
           <h2 id="presentationTitle" class="pastel-blue">Welcome!</h2>
-          <asq-welcome></asq-welcome>
+          <asq-welcome join-message=""></asq-welcome>
         </section>
 
         <section id="goals">
           <h2>Tutorial Goals</h2>
 
-          <ul><li>Learn about how to use the Web to make interactive presentations</li></ul>
+          <ul><li>Learn about how to use the Web to make interactive presentations</li>
+            <li>Make your presentation interactive</li></ul>
 
         </section>
         
@@ -109,6 +110,10 @@ setInterval(tick,500);</script>
     function add(b){
       var dom = document.getElementById("list");
         dom.innerHTML = "<li>A"+(global_counter++)+"</li>\n" + dom.innerHTML;
+      }
+      function remove(e) {
+        console.log(e);
+        e.parentNode.remove(e);
       }
           </script>
           <ul id="list">
@@ -154,7 +159,7 @@ function changeColor(e) {
     <h2>Interactive Graphics</h2>
     <svg width="640" height="320" x="0px" y="0px">
     <g xmlns="http://www.w3.org/2000/svg" id="composite_figure_id_0" transform=" translate(0 , 0)"><rect x="0" y="0" rx="15" ry="15" width="374" height="237" fill="rgb(128,128,128)" stroke="white" stroke-width="10" stroke-dasharray="5, 5" transform=" translate(185 , 78)" opacity="0.25"/>
-<ellipse cx="0" cy="0" rx="68" ry="61.5" fill="rgb(112,219,147)" stroke="black" stroke-width="2" transform=" translate(287 , 162.5) rotate(0) scale(1)" onclick="changeColor(this)"/>
+<ellipse cx="0" cy="0" rx="68" ry="61.5" fill="rgb(112,219,147)" stroke="black" stroke-width="2" transform=" translate(287 , 162.5) rotate(0) scale(1)" onclick="changeColor(this)" class="fragment"/>
 <rect x="0" y="0" rx="0" ry="0" width="126" height="113" fill="rgb(112,219,147)" stroke="black" stroke-width="2" transform=" translate(309 , 166)" onclick="changeColor(this)"/>
 <polygon fill="rgb(112,219,147)" stroke="black" stroke-width="2" points="383,217 465,101 539,218 472,251 " transform=" translate(0 , 0)" onclick="changeColor(this)"/></g>
     </svg>
@@ -167,6 +172,7 @@ function changeColor(e) {
             <li>Limited WYSIWYG editors</li>
             <li>Difficult to reuse individual slides</li>
             <li>Too many frameworks to choose from</li>
+            <li>Browser incompatibilities</li>
           </ul>
         </section>       
 
@@ -199,7 +205,7 @@ function changeColor(e) {
 
         <section id="asq-css">
             <asq-exercise>
-    <asq-css-select-q class="smaller" htmlcode="<div class='reveal'><div class='slides'><section id='splash'><h1 class='title'>Welcome</h1></section><section id='content'><h2 class='title'>Outline</h2></section><section id='b'><h1 class='title'>Background</h1></section></div></div>">
+    <asq-css-select-q class="smaller" contenteditable htmlcode="<div class='reveal'><div class='slides'><section id='splash'><h1 class='title'>Welcome</h1></section><section id='content'><h2 class='title'>Outline</h2></section><section id='b'><h1 class='title'>Background</h1></section></div></div>">
     <asq-stem><h3>How to select with CSS all slide titles?</h3></asq-stem>
     </asq-css-select-q>
   </asq-exercise>
@@ -215,7 +221,7 @@ function changeColor(e) {
               <asq-option name="c">Wordpress</asq-option>
               <asq-option name="d">Markdown</asq-option>
               <asq-option name="l">Latex2HTML</asq-option>
-              <asq-option name="e">I don't write HTML pages, I generate them from my data models</asq-option>
+              <asq-option name="e">I don't write HTML pages, I generate them from my data/models</asq-option>
               <asq-option name="o" is-other>Other</asq-option>
              </asq-multi-choice-q>  
         </asq-exercise>
@@ -234,7 +240,22 @@ function changeColor(e) {
         </asq-exercise>
         </section>
 
-
+        <section id="timeline">
+          <h2>Tutorial Schedule</h2>
+          <div>
+            <div><span class="time">8:45-9:00</span><span>Introduction: Web Presentations</span></div>
+            <div><span class="time">9:00-9:15</span><span>Interactive Web Presentations with ASQ</span></div>
+            <div><span class="time">9:15-9:30</span><span>Web Engineering Mini Lecture Demo</span></div>
+            <div><span class="time">9:30-9:45</span><span>ASQ Presenter Tools Demo</span></div>
+            <div><span class="time">9:45-10:00</span><span>Make existing PDF presentations interactive</span></div>
+            <div><span class="time">10:00-10:30</span><span>Make existing Web presentations interactive</span></div>
+            <br/>
+            <div>Room: Miguel Hernández (ground floor)</div>
+            <div><span class="time">14:00-14:30</span><span>Create your own interactive presentation</span></div>
+            <div><span class="time">14:30-14:45</span><span>Asking questions: what, when, why, how?</span></div>
+            <div><span class="time">14:45-15:00</span><span>Conclusion, Feedback and Reflection</span></div>
+          </div>
+        </section> 
 
 
       </div>
@@ -269,9 +290,9 @@ Reveal.addEventListener( 'slidechanged', function( event ) {
       setTimeout(function(){
         try{
           Reveal.initialize({
-            dependencies:[
-              { src: 'reveal.js/plugin/notes/notes.js', async: true },
-            ],
+            // dependencies:[
+            //   { src: 'reveal.js/plugin/notes/notes.js', async: true },
+            // ],
             pdfMaxPagesPerSlide: 1,
             history: true,
             loop: true,
