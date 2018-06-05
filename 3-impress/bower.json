@@ -1,0 +1,44 @@
+{
+  "name": "usi-web-atelier-skeleton",
+  "private": "true",
+  "version": "0.1.0",
+  "authors": [
+    "Cesare Pautasso",
+    "Vasileios Triglianos"
+  ],
+  "description": "asq-elements",
+  "main": "index.html",
+  "keywords": [
+    "USI",
+    "Web Atelier",
+    "ASQ",
+    "Web Components"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "asq-elements": "ASQ-USI-Elements/asq-elements#master",
+    "asq-buckets-q": "ASQ-USI-Elements/asq-buckets-q#feat-censor-answers",
+    "asq-js-function-body-q": "ASQ-USI-Elements/asq-js-function-body-q#feat-censor-answers",
+    "asq-impress-js": "ASQ-USI/impress.js#master",
+    "asq-canvas": "asq-usi-elements/asq-canvas#feat-new-canvas",
+    "asq-text-input-q": "ASQ-USI-Elements/asq-text-input-q#feat-censor-answers",
+    "jquery": "~2.1.4",
+    "polymer": "1.1.0",
+    "svg-injector": "~1.1.3",
+    "usi-web-atelier-slides-common": "ASQ-USI-Elements/usi-web-atelier-slides-common#master",
+    "webcomponentsjs": "*",
+    "asq-diagram-q": "asq-usi-elements/asq-diagram-q#master"
+  },
+  "resolutions": {
+    "polymer": "^1.6.0",
+    "iron-list": "~1.1.1"
+  }
+}

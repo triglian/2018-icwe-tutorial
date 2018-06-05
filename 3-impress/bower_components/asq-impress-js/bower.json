@@ -1,0 +1,20 @@
+{
+  "name": "asq-impress-js",
+  "version": "0.0.1",
+  "main": "./js/impress.js",
+  "description": "ASQ's fork of impress.js adds substep and form support. Impress.js is a presentation framework based on the power of CSS3 transforms and transitions in modern browsers and inspired by the idea behind prezi.com.",
+  "homepage": "https://github.com/ASQ-USI/impress.js",
+  "license" : ["http://bartaz.mit-license.org/", "http://www.gnu.org/licenses/"],
+  "main": [
+    "./js/impress.js"
+  ],
+  "keywords": [
+    "ASQ",
+    "slideshow",
+    "css3"
+  ],
+  "author": {
+    "name": "Vasileios Triglianos",
+    "web": "https://github.com/triglian"
+  }
+}

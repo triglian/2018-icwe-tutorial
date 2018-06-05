@@ -1,0 +1,201 @@
+<link rel="import" href="asq-diagram-q-viewer-uml.html">
+<link rel="import" href="asq-diagram-q-viewer-erd.html">
+<link rel="import" href="asq-diagram-q-viewer-bpmn.html">
+
+<!--
+`asq-diagram-q`is used to allow the user to draw diagrams like UML's or ER's.
+
+@element asq-diagram-q
+@demo demo/index.html
+@group ASQ Elements
+@blurb Element acting as an editor for diagram questions.
+@homepage http://github.com/ASQ-USI-Elements/asq-diagram-q
+-->
+<dom-module id="asq-diagram-q-viewer">
+
+  <template>
+    <template is="dom-if" if="{{_isDiagramType('uml', type)}}" restamp>
+      <asq-diagram-q-viewer-uml
+              role="viewer"
+              uid="[[uid]]"
+              value="{{value}}"
+              type="uml"
+              disabled="{{disabled}}"
+              width="[[width]]"
+              height="[[height]]"
+              link-pinning="[[linkPinning]]">
+      </asq-diagram-q-viewer-uml>
+    </template>
+
+    <template is="dom-if" if="{{_isDiagramType('erd', type)}}" restamp>
+      <asq-diagram-q-viewer-erd
+              role="viewer"
+              uid="[[uid]]"
+              value="{{value}}"
+              type="erd"
+              disabled="{{disabled}}"
+              width="[[width]]"
+              height="[[height]]"
+              link-pinning="[[linkPinning]]">
+      </asq-diagram-q-viewer-erd>
+    </template>
+
+    <template is="dom-if" if="{{_isDiagramType('bpmn', type)}}" restamp>
+      <asq-diagram-q-viewer-bpmn
+              role="viewer"
+              uid="[[uid]]"
+              value="{{value}}"
+              type="bpmn"
+              disabled="{{disabled}}"
+              width="[[width]]"
+              height="[[height]]"
+              link-pinning="[[linkPinning]]">
+      </asq-diagram-q-viewer-bpmn>
+    </template>
+  </template>
+
+  <script>
+    Polymer({
+      is: 'asq-diagram-q-viewer',
+
+      behaviors: [
+        ASQ.asqQuestionElementBehavior,
+        ASQ.diagramQGlobalBehaviour
+      ],
+
+      properties: {
+
+        /**
+         * An optional initial set of states/relations.
+         */
+        value: {
+          type: Object,
+          notify: true,
+          observer: '_valueChanged'
+        },
+
+        /**
+         * Event bus to communicate with ASQ
+         */
+        eventBus: {
+          type: Object,
+          observer: '_eventBusChanged',
+          notify: true
+        }
+      },
+
+      _valueChanged: function (value) {
+
+        var idMap = {};
+
+        if(value){
+          var diagram = this.$$('asq-diagram-q-viewer-' + this.type);
+          diagram.clear();
+
+          value.states.forEach(function(s){
+            var sId = diagram._addInitialState(s);
+            if(s.id) idMap[s.id] = sId;
+          }.bind(this));
+
+          value.relations.forEach(function(rel){
+            var sourceId = idMap[rel.relation.source.id]? { id : idMap[rel.relation.source.id] } : rel.relation.source;
+            var targetId = idMap[rel.relation.target.id]? { id : idMap[rel.relation.target.id] } : rel.relation.target;
+
+            if(sourceId && targetId){
+              var rId = diagram._addInitialRelation(sourceId, targetId, rel);
+              if(rel.vertices) diagram._graph.getCell(rId).set('vertices',rel.vertices)
+            }
+          }.bind(this));
+        }
+
+      },
+
+      _eventBusChanged: function (eventBus) {
+        if (!eventBus) return;
+        eventBus.on('asq:question_type', this._onQuestionType.bind(this));
+      },
+
+      _onQuestionType: function (evt) {
+        if (!evt || !evt.questionType) return;
+        if (evt.questionType === 'asq-diagram-q') {
+          if (evt.type == 'restoreViewer') {
+            if (!evt.questions) return;
+
+            evt.questions.forEach(function(q){
+              if(q.uid === this.uid)
+                this._onRestoreViewer(q.diagram)
+            }.bind(this))
+          }
+        }
+      },
+
+      _onRestoreViewer: function (diagram) {
+        this.value = diagram
+      },
+
+      /**
+       * Collect answers from inner `asq-option`s and orgnize them
+       * into an object.
+       *
+
+       {
+         uid: this.uid,
+         timestamp: new Date(),
+         options: options
+       }
+
+       */
+      submit: function () {
+        if (this.role !== this.roles.VIEWER) return;
+
+        var diagram = this.$$('asq-diagram-q-viewer-' + this.type);
+
+        if (diagram.selectedCounter > 0)
+          diagram._deselectJointjsObj();
+
+        var statesIds = Object.keys(diagram._states), relationsIds = Object.keys(diagram._relations);
+        var states = [], relations = [];
+
+        statesIds.forEach(function (id) {
+
+          var state = {
+            type: diagram._states[id].type,
+            id: id,
+            state: diagram._states[id].state
+          };
+          if(this.type === 'erd')
+            state.label = diagram._states[id].label;
+
+          states.push(state);
+        }.bind(this));
+        
+        relationsIds.forEach(function (id) {
+
+          var relation = {
+            relation : diagram._relations[id].relation,
+            vertices : diagram._graph.getCell(id).get('vertices') || []
+          };
+
+          if(diagram._relations[id].type) relation.type = diagram._relations[id].type;
+          if(diagram._relations[id].labels) relation.labels = diagram._relations[id].labels;
+          if(diagram._relations[id].label) relation.label = diagram._relations[id].label;
+
+          relations.push(relation);
+        }.bind(this));
+
+        return {
+          questionUid: this.uid,
+          timestamp: new Date(),
+          diagram: {
+            type: this.type,
+            states: states,
+            relations: relations
+          }
+        }
+      }
+
+    });
+
+  </script>
+
+</dom-module>

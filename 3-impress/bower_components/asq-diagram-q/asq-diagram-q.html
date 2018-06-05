@@ -1,0 +1,137 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../asq-base/asq-base.html">
+
+<link rel="import" href="elements/asq-diagram-q-shared/asq-diagram-q-shared-styles.html">
+<link rel="import" href="elements/asq-diagram-q-shared/asq-diagram-q-shared-utilities.html">
+
+<link rel="import" href="elements/asq-diagram-q-viewer/asq-diagram-q-viewer.html">
+<link rel="import" href="elements/asq-diagram-q-presenter/asq-diagram-q-presenter.html">
+
+<!--
+`asq-diagram-q`is used to allow the user to draw diagrams like UML's or ER's.
+
+@element asq-diagram-q
+@demo demo/index.html
+@group ASQ Elements
+@blurb Element acting as an editor for diagram questions.
+@homepage http://github.com/ASQ-USI-Elements/asq-diagram-q
+-->
+<dom-module id="asq-diagram-q">
+
+  <template>
+    <div id="header">
+      <p><content></content></p>
+    </div>
+    <template is="dom-if" if="{{hasRole(role, roles.VIEWER)}}" restamp>
+      <asq-diagram-q-viewer
+              role="viewer"
+              uid="[[uid]]"
+              name="[[name]]"
+              value="{{value}}"
+              disabled="{{disabled}}"
+              type="[[type]]"
+              width="[[width]]"
+              height="[[height]]"
+              link-pinning="[[linkPinning]]"
+              event-bus="[[eventBus]]">
+      </asq-diagram-q-viewer>
+    </template>
+
+    <template is="dom-if" if="{{hasRole(role, roles.PRESENTER)}}" restamp>
+      <asq-diagram-q-presenter
+              role="presenter"
+              uid="[[uid]]"
+              name="[[name]]"
+              disabled="{{disabled}}"
+              type="[[type]]"
+              width="[[width]]"
+              height="[[height]]"
+              link-pinning="[[linkPinning]]"
+              event-bus="[[eventBus]]">
+      </asq-diagram-q-presenter>
+    </template>
+  </template>
+
+  <script>
+    Polymer({
+      is: 'asq-diagram-q',
+
+      behaviors: [
+        ASQ.asqQuestionElementBehavior,
+        ASQ.diagramQGlobalBehaviour
+      ],
+
+      properties: {
+
+        _supported_types : {
+          type: Array,
+          value: ['uml', 'erd', 'bpmn']
+        },
+
+        /**
+         * Type of diagram (default is uml)
+         * options = 'uml', 'erd', 'bpmn'
+         */
+
+        type: {
+          type: String,
+          value: 'uml',
+          notify: true,
+          reflectToAttribute: true,
+          observer: 'onTypeChanged'
+        },
+
+        /**
+         * An optional initial set of states/relations.
+         */
+        value: {
+          type: Object,
+          notify: true
+        },
+
+        /**
+         * Event bus to communicate with ASQ
+         */
+        eventBus: {
+          type: Object,
+          notify: true
+        }
+      },
+
+      created: function () {
+        document.addEventListener('asq-ready', function (evt) {
+          this.eventBus = evt.detail.asqEventBus
+        }.bind(this));
+      },
+
+      /**
+       * Collect answers from inner `asq-option`s and orgnize them
+       * into an object.
+       *
+
+       {
+         uid: this.uid,
+         timestamp: new Date(),
+         options: options
+       }
+
+       */
+      submit: function () {
+        if (this.role == this.roles.VIEWER) {
+          var el = this.$$('asq-diagram-q-viewer');
+          if (!el) {
+            throw new Error('submit(): expected asq-diagram-viewer element to exist');
+          }
+          return el.submit();
+        }
+      },
+
+      onTypeChanged: function (val) {
+        if(!this._supported_types.includes(val))
+          this.type = 'uml'
+      }
+    });
+
+  </script>
+
+</dom-module>
