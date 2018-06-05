@@ -8,19 +8,19 @@
     <title>ICWE2018 - ASQ tutorial | Web Mini Lecture</title>
     
 
-    <script src="/webcomponentsjs/webcomponents-lite.js"></script> 
-<!--     <script src="http://asq.inf.usi.ch/element-docs/webcomponentsjs/webcomponents-lite.js"></script>  -->
+    <!-- <script src="/webcomponentsjs/webcomponents-lite.js"></script>  -->
+    <script src="http://asq.inf.usi.ch/element-docs/webcomponentsjs/webcomponents-lite.js"></script> 
     <!-- Use shadow dom -->
     <script>
       window.Polymer = window.Polymer || {};
       window.Polymer.dom = 'shadow';
     </script>
-    <link rel="import" href="/paper-icon-button/paper-icon-button.html">
-    <link rel="import" href="/asq-elements/asq-elements.html">
+    <!-- <link rel="import" href="/paper-icon-button/paper-icon-button.html"> -->
+    <!-- <link rel="import" href="/asq-elements/asq-elements.html"> -->
 
     
-<!--     <link rel="import" href="http://asq.inf.usi.ch/element-docs/paper-icon-button/paper-icon-button.html">
-    <link rel="import" href="http://asq.inf.usi.ch/element-docs/asq-elements/asq-elements.html"> -->
+    <link rel="import" href="http://asq.inf.usi.ch/element-docs/paper-icon-button/paper-icon-button.html">
+    <link rel="import" href="http://asq.inf.usi.ch/element-docs/asq-elements/asq-elements.html">
    
 
 
@@ -406,12 +406,12 @@ function resizeAceEditors(){
     })
   })
 
-  var els = document.querySelectorAll('asq-highlight-q');
+  els = document.querySelectorAll('asq-highlight-q');
   [].forEach.call(els, function(el){
-    var roleEl = Polymer.dom(el.root).querySelector('asq-highlight-q-' + el.role);
+    var roleEl = Polymer.dom(el.root).querySelector('asq-highlight-'+ el.role + '-q');
     if(!roleEl) return;
 
-    override(roleEl.codeEditor.editor.renderer, "screenToTextCoordinates", function(old) {
+    override(roleEl.$.codeEditor.editor.renderer, "screenToTextCoordinates", function(old) {
         return function(x, y) {
             var zoom = getZoom(el);
             return old.call(this, x/zoom, y/zoom)
