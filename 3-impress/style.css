@@ -28,6 +28,7 @@ body.impress-on-title #welcome {display: none;}
 #title asq-welcome {font-size: 0.75em;}
 
 #asq-fiddle1, #asq-fiddle2 {width: 95vw;}
+#asq-js, #asq-passing, #asq-passing2, #js-fn, #passing2 {width: 90vw;}
 
  asq-highlight-q {height: 80vh;}
 
@@ -66,6 +67,8 @@ div.flex {display: flex; flex-direction: row}
 
     li:hover {font-weight: bold}
 
+body.impress-on-splash #welcome {opacity: 0;}
+
     asq-text-input-q-stats {
       min-height: 5em;
     }
@@ -96,5 +99,93 @@ div.flex {display: flex; flex-direction: row}
       };
     }
 
+
+/*********************************************
+ * Intro animation
+ *********************************************/
+.asq-logo{
+  perspective: 800px;
+  position: relative;
+  width: 316px;
+  height: 100px;
+  margin: 0 auto;
+}
+.anim{
+  transform-style: preserve-3d;
+  position: absolute;
+  top:0;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+.backfacing{
+  transform: rotateY( 180deg );
+}
+
+.a{ left: 0px;}
+.s{ left: 110px;}
+.q{ left: 220px;}
+
+.anim {
+  -webkit-animation: frontsideAnimation 6s ease infinite;
+  -moz-animation: frontsideAnimation 6s ease infinite;
+  -o-animation: frontsideAnimation 6s ease infinite;
+  animation: frontsideAnimation 6s ease infinite;
+}
+
+.anim.backfacing {
+  -webkit-animation: backsideAnimation 6s ease infinite;
+  -moz-animation: backsideAnimation 6s ease infinite;
+  -o-animation: backsideAnimation 6s ease infinite;
+  animation: backsideAnimation 6s ease infinite;
+}
+
+@-webkit-keyframes frontsideAnimation {
+0% { -webkit-transform: rotateY(0deg); }
+50% { -webkit-transform: rotateY(180deg); }
+100% { -webkit-transform: rotateY(360deg); }
+}
+
+@-moz-keyframes frontsideAnimation {
+0% { -webkit-transform: rotateY(0deg); }
+50% { -webkit-transform: rotateY(180deg); }
+100% { -webkit-transform: rotateY(360deg); }
+}
+
+@-o-keyframes frontsideAnimation {
+0% { -webkit-transform: rotateY(0deg); }
+50% { -webkit-transform: rotateY(180deg); }
+100% { -webkit-transform: rotateY(360deg); }
+}
+
+@keyframes frontsideAnimation {
+0% { -webkit-transform: rotateY(0deg); }
+50% { -webkit-transform: rotateY(180deg); }
+100% { -webkit-transform: rotateY(360deg); }
+}
+
+@-webkit-keyframes backsideAnimation {
+0% { -webkit-transform: rotateY(180deg); }
+50% { -webkit-transform: rotateY(360deg); }
+100% { -webkit-transform: rotateY(540deg); }
+}
+
+@-moz-keyframes backsideAnimation {
+0% { -webkit-transform: rotateY(180deg); }
+50% { -webkit-transform: rotateY(360deg); }
+100% { -webkit-transform: rotateY(540deg); }
+}
+
+@-o-keyframes backsideAnimation {
+0% { -webkit-transform: rotateY(180deg); }
+50% { -webkit-transform: rotateY(360deg); }
+100% { -webkit-transform: rotateY(540deg); }
+}
+
+@keyframes backsideAnimation {
+0% { -webkit-transform: rotateY(180deg); }
+50% { -webkit-transform: rotateY(360deg); }
+100% { -webkit-transform: rotateY(540deg); }
+}
 
 }
