@@ -54,8 +54,8 @@ Sometimes it's convenient to display statistics about a question type in a seper
 ASQ supports 13 question types! 
 
 1. Use the links provided in the slide with `id="many-question-types"` to access the documentation of the question type that you want to try. 
-1. Locate the fifth slide in `skeleton/index.html`. It is a `<section>` element with `id="task-5"`.
-1. Use the pertinent code from the documentation to create a question type the comment for _Task 4_  inside the `<section>` tags. __DO NOT__ forget to enclose your question type inside `<asq-exercise>` tags!
+1. Locate the fifth slide in `skeleton/index.html`. It is a `<section>` element with `id="task-7"`.
+1. Use the pertinent code from the documentation to create a question type the comment for _Task 7_  inside the `<section>` tags. __DO NOT__ forget to enclose your question type inside `<asq-exercise>` tags!
 
 ## Task 8 - Update a presentation using curl
 
