@@ -17,3 +17,9 @@
 # Local Server Tasks 
 
 In the case of Internet connectivity issues please find the tasks in [Tasks-local.md](./Tasks-local.md).
+
+# ASQ survey
+
+We would be grateful if you could complete the following anonymous survey on ASQ. It won't take more than 4 minutes.
+
+[Survey](https://goo.gl/forms/0gytE7as4PBKVfvs1)
