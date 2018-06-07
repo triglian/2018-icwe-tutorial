@@ -1,0 +1,219 @@
+<!doctype html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=1024" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <title>ICWE2018 - ASQ tutorial | Background</title>
+    
+
+    <script src="/webcomponentsjs/webcomponents-lite.js"></script> 
+    <!-- <script src="http://asq.inf.usi.ch/webcomponentsjs/webcomponents-lite.js"></script>  -->
+    <!-- Use shadow dom -->
+    <script>
+      window.Polymer = window.Polymer || {};
+      window.Polymer.dom = 'shadow';
+    </script>
+
+
+    <link rel="import" href="shared-styles.html">
+    <style is="custom-style" include="shared-styles"></style> 
+
+    <link rel="import" href="/paper-icon-button/paper-icon-button.html">
+    <link rel="import" href="/asq-elements/asq-elements.html">
+    <link rel="import" href="/iron-flex-layout/classes/iron-flex-layout.html">
+    
+    <!-- 
+    <link rel="import" href="http://asq.inf.usi.ch/element-docs/paper-icon-button/paper-icon-button.html">
+    <link rel="import" href="http://asq.inf.usi.ch/element-docs/asq-elements/asq-elements.html">
+    <link rel="import" href="http://asq.inf.usi.ch/element-docs/iron-flex-layout/classes/iron-flex-layout.html"> -->
+
+
+    <link rel="stylesheet" href="reveal.js/css/reveal.css">
+    <!-- <link rel="stylesheet" href="reveal.js/css/print/pdf.css"> -->
+    <link rel="stylesheet" href="reveal.js/css/theme/asq.css" id="theme">
+
+    <!-- Code syntax highlighting -->
+    <link rel="stylesheet" href="reveal.js/lib/css/zenburn.css">   
+
+  </head>
+
+  <body data-asq-role="viewer">
+    <asq-settings max-num-submissions="-1" slideflow="ctrl" assessment="none"></asq-settings>
+
+    <img id="icwe-logo" src="img/logo-icwe.png" alt="ICWE 2018 logo" style="width: 100px;">
+
+    <a id="asq-logo-fixed" href="http://asq.inf.usi.ch/" target="_blank">
+      <img  src="img/ASQLogoBlack.png" alt="ASQ logo" style="width: 100px;">
+    </a>
+
+    <script>function tick() {var d = new Date(); document.getElementById("clock").innerHTML = d.getHours() + ":" + (d.getMinutes() < 10 ? "0" + d.getMinutes() : d.getMinutes());}
+setInterval(tick,500);</script>
+<div id="clock">XX:YY</div>  
+     
+
+
+    <div class="reveal">
+
+      <div id="joinasqmsg">Join: <a class="bold" style="font-size: 1.2em; text-shadow:none; text-align: right; padding: 0 10px;" href="http://bit.do/icwe18">http://bit.do/icwe18</a></div>
+
+      <!-- Any section element inside of this container is displayed as a slide -->
+
+      <div class="slides">
+        <section id="splash">
+
+          <div class="asq-logo">
+            <img class="anim a" src="svg/a.svg">
+            <img class="anim backfacing a" src="svg/a.svg">
+            <img class="anim s" src="svg/s.svg">
+            <img class="anim backfacing s" src="svg/s.svg">
+            <img class="anim q" src="svg/q.svg">
+            <img class="anim backfacing q" src="svg/q.svg">
+          </div>
+
+          <h2 id="presentationTitle" class="pastel-blue">Web Engineering Panel</h2>
+          <asq-welcome join-message="Join: http://bit.do/icwe18"></asq-welcome>
+        </section>
+
+        
+        <section id="history">
+                   <asq-exercise>
+          <asq-multi-choice-q multi>
+            <asq-stem><h4>Did you go to?</h4></asq-stem>
+        <asq-option name="icwe-2006">ICWE2006, Palo Alto, CA, USA</asq-option>
+        <asq-option name="icwe-2007">ICWE2007, Como, Italy</asq-option>
+        <asq-option name="icwe-2008">ICWE2008, Yorktown Heights, NY, USA</asq-option>
+        <asq-option name="icwe-2009">ICWE2009, San Sebastián, Spain</asq-option>
+        <asq-option name="icwe-2010">ICWE2010, Vienna, Austria</asq-option>
+        <asq-option name="icwe-2011">ICWE2011, Paphos, Cyprus</asq-option>
+        <asq-option name="icwe-2012">ICWE2012, Berlin, Germany</asq-option>
+        <asq-option name="icwe-2013">ICWE2013, Aalborg, Denmark</asq-option>
+        <asq-option name="icwe-2014">ICWE2014, Toulouse, France</asq-option>
+        <asq-option name="icwe-2015">ICWE2015, Rotterdam, NL</asq-option>
+        <asq-option name="icwe-2016">ICWE2016, Lugano, Switzerland</asq-option>
+        <asq-option name="icwe-2017">ICWE2017, Rome, Italy</asq-option>
+             </asq-multi-choice-q>  
+        </asq-exercise>
+        </section>
+
+        <section id="past">
+          <asq-exercise>
+          <asq-multi-choice-q multi>
+           <asq-stem><h4>Which topics did you work on sometime during the <b>past</b> 10 years?</h4></asq-stem>
+        <asq-option name="API">API</asq-option>
+        <asq-option name="Crowd">Crowd</asq-option>
+        <asq-option name="Data">Data</asq-option>
+        <asq-option name="IoT">IoT/WoT</asq-option>
+        <asq-option name="Mashup">Mashup</asq-option>
+        <asq-option name="Model">Model</asq-option>
+        <asq-option name="REST">REST</asq-option>
+        <asq-option name="Semantic">Semantic</asq-option>
+        <asq-option name="Service">Service</asq-option>
+        <asq-option name="Social">Social</asq-option>
+        <asq-option name="UI">UI</asq-option>
+        <asq-option name="User">User</asq-option>
+        <asq-option name="Web">Web</asq-option>
+        </asq-multi-choice-q>
+      </asq-exercise>
+        </section>
+
+        <section id="still">
+          <asq-exercise>
+          <asq-multi-choice-q multi>
+           <asq-stem><h4>Which topics will you still work on sometime during the <b>next</b> 10 years?</h4></asq-stem>
+        <asq-option name="API">API</asq-option>
+        <asq-option name="Crowd">Crowd</asq-option>
+        <asq-option name="Data">Data</asq-option>
+        <asq-option name="IoT">IoT/WoT</asq-option>
+        <asq-option name="Mashup">Mashup</asq-option>
+        <asq-option name="Model">Model</asq-option>
+        <asq-option name="REST">REST</asq-option>
+        <asq-option name="Semantic">Semantic</asq-option>
+        <asq-option name="Service">Service</asq-option>
+        <asq-option name="Social">Social</asq-option>
+        <asq-option name="UI">UI</asq-option>
+        <asq-option name="User">User</asq-option>
+        <asq-option name="Web">Web</asq-option>
+        </asq-multi-choice-q>
+      </asq-exercise>
+        </section>
+
+        <section id="newt">
+          <asq-exercise>
+          <asq-multi-choice-q multi>
+           <asq-stem><h4>Which new topics will you work on during the next 10 years?</h4></asq-stem>
+        <asq-option name="BigData">Big Data</asq-option>
+        <asq-option name="Blockchain">Blockchain</asq-option>
+        <asq-option name="DataScience">Cognitive Computing</asq-option>
+        <asq-option name="WoT">Web of Things</asq-option>
+        <asq-option name="IoT">Internet of Things</asq-option>
+        <asq-option name="Fog">Fog Computing</asq-option>
+        <asq-option name="GraphQL">GraphQL</asq-option>
+        <asq-option name="MicroServices">Microservices</asq-option>
+        <asq-option name="UI">Micropayments</asq-option>
+        <asq-option name="VR">VR/AR/MixR</asq-option>
+        <asq-option name="Other" is-other>Other</asq-option>
+        </asq-multi-choice-q>
+      </asq-exercise>
+        </section>
+
+
+<section id="responsive">
+</section>
+
+<section id="liquid">
+</section>
+
+<section id="redecentralization">
+</section>
+
+<section id="micropayments">
+</section>
+
+      </div>
+    </div>
+    <script src="reveal.js/lib/js/head.min.js"></script>
+    <script src="bower_components/svg-injector/dist/svg-injector.min.js"></script>
+    <script src="reveal.js/js/reveal.js"></script>
+    <script type="text/javascript">
+
+//and inject svgs
+var mySVGsToInject = document.querySelectorAll('img.svg');
+SVGInjector(mySVGsToInject);
+
+// cache question-type-name-label
+var questionTypeNameLabelEl = document.getElementById('question-type-name-label');
+
+Reveal.addEventListener( 'ready', function( event ) {
+  document.body.classList.add("on-"+event.currentSlide.id);
+});
+
+Reveal.addEventListener( 'slidechanged', function( event ) {
+  if (event.previousSlide) {
+    document.body.classList.remove("on-"+event.previousSlide.id);
+  }
+  if (event.currentSlide) {
+    document.body.classList.add("on-"+event.currentSlide.id);
+  }
+});
+
+    </script>
+    <script>
+      setTimeout(function(){
+        try{
+          Reveal.initialize({
+            // dependencies:[
+            //   { src: 'reveal.js/plugin/notes/notes.js', async: true },
+            // ],
+            pdfMaxPagesPerSlide: 1,
+            history: true,
+            loop: true,
+          });
+        }catch(err){
+          console.log(err)
+        }
+      }, 500)
+    </script>
+  </body>
+</html>
